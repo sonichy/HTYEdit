@@ -301,8 +301,7 @@ void MainWindow::on_action_font_triggered()
         bool ok;
         qDebug() << ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->currentFont();
         QFont font = QFontDialog::getFont(&ok, ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->currentFont(), this, "选择字体");
-        if(ok)
-        {
+        if(ok){
             ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->setCurrentFont(font);
         }
     }
