@@ -15,11 +15,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     mdichild.cpp \
-    dialogfind.cpp
+    dialogfind.cpp \
+    highlighter.cpp
+
 
 HEADERS  += mainwindow.h \
     mdichild.h \
-    dialogfind.h
+    dialogfind.h \
+    highlighter.h
 
 FORMS    += mainwindow.ui \
     dialogfind.ui

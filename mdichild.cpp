@@ -1,4 +1,5 @@
 ﻿#include "mdichild.h"
+#include "highlighter.h"
 #include <QWheelEvent>
 #include <QTextStream>
 #include <QApplication>
@@ -6,6 +7,7 @@
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QDebug>
+
 MdiChild::MdiChild()
 {    
     connect(document(),SIGNAL(contentsChanged()),this,SLOT(onContentsChanged()));
@@ -46,6 +48,7 @@ bool MdiChild::loadFile(QString filename)
         file->close();
         delete file;
         setPlainText(s);
+        Highlighter *highlighter = new Highlighter(document());
         showMaximized();
         return true;
     }else{
