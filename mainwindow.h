@@ -1,7 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "dialogfind.h"
+#include "ui_dialogfind.h"
 #include <QMainWindow>
+#include <QDragEnterEvent>
 
 namespace Ui {
 class MainWindow;
@@ -19,6 +22,13 @@ public:
 
 private:
     void open(QString filename);
+    QLabel *LS1,*LS2;
+    QString filename,path;
+    DialogFind *dialogFind;
+
+protected:
+    void dragEnterEvent(QDragEnterEvent *e);
+    void dropEvent(QDropEvent *e);
 
 private slots:
     void on_action_new_triggered();

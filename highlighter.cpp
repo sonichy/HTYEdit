@@ -5,7 +5,7 @@ Highlighter::Highlighter(QTextDocument *parent)
 {
     HighlightingRule rule;
 
-    keywordFormat.setForeground(QColor("#D33D6D"));
+    keywordFormat.setForeground(QColor("#FFFF00"));
     keywordFormat.setFontWeight(QFont::Bold);
     QStringList keywordPatterns;
     keywordPatterns << "\\bchar\\b" << "\\bclass\\b" << "\\bconst\\b"
@@ -36,13 +36,13 @@ Highlighter::Highlighter(QTextDocument *parent)
 
     multiLineCommentFormat.setForeground(QColor("#5C5D55"));
 
-    quotationFormat.setForeground(QColor("#DCB98D"));
+    quotationFormat.setForeground(QColor("#FFFF00"));
     rule.pattern = QRegularExpression("\".*\"");
     rule.format = quotationFormat;
     highlightingRules.append(rule);
 
-    //functionFormat.setFontItalic(true);
-    functionFormat.setForeground(QColor("#F385F3"));
+    functionFormat.setFontItalic(true);
+    functionFormat.setForeground(QColor("#00FF00"));
     rule.pattern = QRegularExpression("\\b[A-Za-z0-9_]+(?=\\()");
     rule.format = functionFormat;
     highlightingRules.append(rule);
@@ -74,8 +74,7 @@ void Highlighter::highlightBlock(const QString &text)
             setCurrentBlockState(1);
             commentLength = text.length() - startIndex;
         } else {
-            commentLength = endIndex - startIndex
-                            + match.capturedLength();
+            commentLength = endIndex - startIndex + match.capturedLength();
         }
         setFormat(startIndex, commentLength, multiLineCommentFormat);
         startIndex = text.indexOf(commentStartExpression, startIndex + commentLength);

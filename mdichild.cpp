@@ -50,6 +50,10 @@ bool MdiChild::loadFile(QString filename)
         setPlainText(s);
         Highlighter *highlighter = new Highlighter(document());
         showMaximized();
+        zoomIn();
+        zoomIn();
+        zoomIn();
+        zoomIn();
         return true;
     }else{
         QMessageBox::warning(this,"错误", QString(" %1:\n%2").arg(path).arg(file->errorString()));
