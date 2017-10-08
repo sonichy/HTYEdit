@@ -53,7 +53,7 @@ private slots:
     void find();
     void replace();
     void replaceAll();
-    void onCursorPositionChanged();
+    void cursorPositionChange();
 };
 
 #endif // MAINWINDOW_H

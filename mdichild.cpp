@@ -32,28 +32,25 @@ void MdiChild::wheelEvent(QWheelEvent *e)
 
 bool MdiChild::loadFile(QString filename)
 {
-    path=filename;
-    setWindowTitle(QFileInfo(filename).fileName()+"[*]");
-    QFile *file=new QFile;
+    path = filename;
+    setWindowTitle(QFileInfo(filename).fileName() + "[*]");
+    QFile *file = new QFile;
     file->setFileName(filename);
-    bool ok=file->open(QIODevice::ReadOnly);
+    bool ok = file->open(QIODevice::ReadOnly);
     if(ok){
         QPalette plt = palette();
         plt.setColor(QPalette::Text,QColor(Qt::white));
         plt.setBrush(QPalette::Base,QBrush(Qt::black));
         setPalette(plt);
         QTextStream ts(file);
-        QString s=ts.readAll();
+        QString s = ts.readAll();
         setVisible(true);
         file->close();
         delete file;
         setPlainText(s);
         Highlighter *highlighter = new Highlighter(document());
         showMaximized();
-        zoomIn();
-        zoomIn();
-        zoomIn();
-        zoomIn();
+        zoomIn(4);
         return true;
     }else{
         QMessageBox::warning(this,"错误", QString(" %1:\n%2").arg(path).arg(file->errorString()));
@@ -67,7 +64,7 @@ bool MdiChild::save()
     if(file.open(QFile::WriteOnly))
     {
         QTextStream ts(&file);
-        QString s=toPlainText();
+        QString s = toPlainText();
         ts << s;
         //ui->mdiArea->currentSubWindow()->setWindowTitle(QFileInfo(filename).fileName());
         //LS1->setText("保存 "+filename);
