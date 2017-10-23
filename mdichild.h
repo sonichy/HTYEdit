@@ -14,6 +14,7 @@ public:
 
 protected:
     void wheelEvent(QWheelEvent*);
+    void keyPressEvent(QKeyEvent *e);
 
 private slots:
     void onContentsChanged();

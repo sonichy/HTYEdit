@@ -84,9 +84,9 @@
     <addaction name="action_copy"/>
     <addaction name="action_cut"/>
     <addaction name="action_paste"/>
-    <addaction name="action_indent"/>
     <addaction name="action_find"/>
     <addaction name="action_replace"/>
+    <addaction name="action_indent"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">

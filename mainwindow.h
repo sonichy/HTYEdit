@@ -49,6 +49,7 @@ private slots:
     void on_action_undo_triggered();
     void on_action_redo_triggered();
     void on_action_find_triggered();
+    void on_action_indent_triggered();
     void on_action_font_triggered();
     void find();
     void replace();

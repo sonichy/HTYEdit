@@ -81,3 +81,23 @@ void MdiChild::onContentsChanged()
 {
     setWindowModified(document()->isModified());
 }
+
+void MdiChild::keyPressEvent(QKeyEvent *e)
+{
+    if(e->key() == Qt::Key_ParenLeft){
+        insertPlainText(" )");
+        QTextCursor c = textCursor();
+        c.movePosition(QTextCursor::Left,QTextCursor::MoveAnchor,2);
+    }
+    if(e->key() == Qt::Key_BraceLeft){
+        insertPlainText(" }");
+        QTextCursor c = textCursor();
+        c.movePosition(QTextCursor::Left,QTextCursor::MoveAnchor,2);
+    }
+    if(e->key() == Qt::Key_BracketLeft){
+        insertPlainText(" ]");
+        QTextCursor c = textCursor();
+        c.movePosition(QTextCursor::Left,QTextCursor::MoveAnchor,2);
+    }
+    return QTextEdit::keyPressEvent(e);
+}
