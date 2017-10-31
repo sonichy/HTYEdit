@@ -5,6 +5,7 @@
 #include "ui_dialogfind.h"
 #include <QMainWindow>
 #include <QDragEnterEvent>
+#include <QMdiSubWindow>
 
 namespace Ui {
 class MainWindow;
@@ -22,7 +23,7 @@ public:
 
 private:
     void open(QString filename);
-    QLabel *LS1,*LS2;
+    QLabel *LS1,*LS2,*LS3;
     QString filename,path;
     DialogFind *dialogFind;
 
@@ -55,6 +56,7 @@ private slots:
     void replace();
     void replaceAll();
     void cursorPositionChange();
+    void subWindowActivate(QMdiSubWindow *window);
 };
 
 #endif // MAINWINDOW_H

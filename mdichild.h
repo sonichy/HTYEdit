@@ -10,7 +10,7 @@ public:
     MdiChild();
     bool loadFile(QString);
     bool save();
-    QString path;
+    QString path, scodec;
 
 protected:
     void wheelEvent(QWheelEvent*);

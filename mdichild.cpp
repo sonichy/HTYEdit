@@ -7,6 +7,8 @@
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QDebug>
+#include <QTextCodec>
+#include <QProcess>
 
 MdiChild::MdiChild()
 {    
@@ -32,8 +34,16 @@ void MdiChild::wheelEvent(QWheelEvent *e)
 
 bool MdiChild::loadFile(QString filename)
 {
-    path = filename;
+    path = filename;    
     setWindowTitle(QFileInfo(filename).fileName() + "[*]");
+    // 检测编码
+    QProcess *process = new QProcess;
+    process->start("file --mime-encoding " + filename);
+    process->waitForFinished();
+    QString PO = process->readAllStandardOutput();
+    scodec = PO.mid(PO.indexOf(": ") + 2).replace("\n","").toUpper();
+    //qDebug() << scodec;
+
     QFile *file = new QFile;
     file->setFileName(filename);
     bool ok = file->open(QIODevice::ReadOnly);
@@ -43,14 +53,17 @@ bool MdiChild::loadFile(QString filename)
         plt.setBrush(QPalette::Base,QBrush(Qt::black));
         setPalette(plt);
         QTextStream ts(file);
+        // 还是乱码
+        QTextCodec *codec = QTextCodec::codecForName(scodec.toLatin1());
+        ts.setCodec(codec);
         QString s = ts.readAll();
-        setVisible(true);
         file->close();
         delete file;
         setPlainText(s);
         Highlighter *highlighter = new Highlighter(document());
+        Q_UNUSED(highlighter);
         showMaximized();
-        zoomIn(4);
+        zoomIn(4);        
         return true;
     }else{
         QMessageBox::warning(this,"错误", QString(" %1:\n%2").arg(path).arg(file->errorString()));
