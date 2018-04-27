@@ -73,6 +73,8 @@
     <addaction name="action_close"/>
     <addaction name="action_save"/>
     <addaction name="action_saveas"/>
+    <addaction name="action_print"/>
+    <addaction name="action_printPreview"/>
     <addaction name="action_quit"/>
    </widget>
    <widget class="QMenu" name="menu_2">
@@ -314,6 +316,22 @@
    </property>
    <property name="text">
     <string>字体</string>
+   </property>
+  </action>
+  <action name="action_print">
+   <property name="text">
+    <string>打印</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="action_printPreview">
+   <property name="text">
+    <string>打印预览</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+P</string>
    </property>
   </action>
  </widget>

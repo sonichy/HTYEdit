@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include <QDragEnterEvent>
 #include <QMdiSubWindow>
+#include <QPrinter>
 
 namespace Ui {
 class MainWindow;
@@ -37,6 +38,8 @@ private slots:
     void on_action_close_triggered();
     void on_action_save_triggered();
     void on_action_saveas_triggered();
+    void on_action_print_triggered();
+    void on_action_printPreview_triggered();
     void on_action_changelog_triggered();
     void on_action_aboutQt_triggered();
     void on_action_about_triggered();
@@ -57,6 +60,7 @@ private slots:
     void replaceAll();
     void cursorPositionChange();
     void subWindowActivate(QMdiSubWindow *window);
+    void printDocument(QPrinter *printer);
 };
 
 #endif // MAINWINDOW_H
