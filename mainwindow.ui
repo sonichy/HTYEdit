@@ -121,6 +121,9 @@
    <addaction name="menu_3"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="movable">
+    <bool>false</bool>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
@@ -290,7 +293,10 @@
     <string>运行</string>
    </property>
    <property name="toolTip">
-    <string>运行</string>
+    <string>运行 F5</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
    </property>
   </action>
   <action name="action_zoomin">

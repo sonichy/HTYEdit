@@ -7,6 +7,7 @@
 #include <QDragEnterEvent>
 #include <QMdiSubWindow>
 #include <QPrinter>
+#include <QProcess>
 
 namespace Ui {
 class MainWindow;
@@ -23,9 +24,9 @@ public:
     void SyntaxHighlight();
 
 private:
-    void open(QString filename);
-    QLabel *LS1,*LS2,*LS3;
-    QString filename,path;
+    void open(QString fileName);
+    QLabel *LS1, *LS2, *LS3;
+    QString filename, path;
     DialogFind *dialogFind;
 
 protected:
@@ -61,6 +62,7 @@ private slots:
     void cursorPositionChange();
     void subWindowActivate(QMdiSubWindow *window);
     void printDocument(QPrinter *printer);
+    void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
 };
 
 #endif // MAINWINDOW_H

@@ -81,7 +81,7 @@ bool MdiChild::save()
         ts << s;
         //ui->mdiArea->currentSubWindow()->setWindowTitle(QFileInfo(filename).fileName());
         //LS1->setText("保存 "+filename);
-        setWindowTitle(QFileInfo(path).fileName()+"[*]");
+        setWindowTitle(QFileInfo(path).fileName() + "[*]");
         setWindowModified(false);
         return true;
     }else{

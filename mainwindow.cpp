@@ -77,7 +77,7 @@ void MainWindow::on_action_about_triggered()
 
 void MainWindow::on_action_changelog_triggered()
 {
-    QString s = "1.2\n2018-04\n增加打印功能。\n1.1\n2017-10\n增加获取文本编码(使用 file --mime-encoding 命令返回)，但是没有解决乱码问题。\n排版实验。\n用文本框代替消息框显示更新日志。\n2017-07\n增加拖放打开文件。\n2017-06\n增加语法高亮。\n提取打开文件的相对路径，使Markdown预览能够载入相对路径图片。\n\n1.0\n2017-03\n支持命令行打开文件和打开方式打开文件。\n查找窗口填入选中文本。\n2017-02\n根据文件扩展名选择语法高亮方案。\nJS语法高亮实验成功！\nHTML语法高亮实验成功！\n增加设置字体。\n设置状态栏左右边距。\n2017-01\n实现全部替换。\n设置循环查找。\n增加查找替换窗体和功能。\n根据文件扩展名决定是否使用默认程序打开，如htm。\n优化保存、另存为和文本修动标题标记逻辑。\n增加撤销，重做，子窗标题文本改动标识。\n增加子窗体类，实现Ctrl+滚轮缩放和保存打开文件的路径。\n增加使用默认程序预览文件。\n把上一个打开或保存的路径设置为打开或保存对话框的默认路径和文件名。\n增加放大、缩小。\n增加文本光标变化信号，光标所在行列显示在状态栏第二栏。\n状态栏分为2栏\n修复没有子窗口时预览引起的崩溃。\n增加预览功能。\n保存成功。\n修改字体颜色，背景色成功。\n新建文件成功，打开文件载入成功。\n选用QMdiArea作为主控件，增加窗口标签、平铺、层叠菜单。 \n制作主要菜单。";
+    QString s = "1.2\n2018-05\n增加运行python。\n2018-04\n增加打印功能。\n1.1\n2017-10\n增加获取文本编码(使用 file --mime-encoding 命令返回)，但是没有解决乱码问题。\n排版实验。\n用文本框代替消息框显示更新日志。\n2017-07\n增加拖放打开文件。\n2017-06\n增加语法高亮。\n提取打开文件的相对路径，使Markdown预览能够载入相对路径图片。\n\n1.0\n2017-03\n支持命令行打开文件和打开方式打开文件。\n查找窗口填入选中文本。\n2017-02\n根据文件扩展名选择语法高亮方案。\nJS语法高亮实验成功！\nHTML语法高亮实验成功！\n增加设置字体。\n设置状态栏左右边距。\n2017-01\n实现全部替换。\n设置循环查找。\n增加查找替换窗体和功能。\n根据文件扩展名决定是否使用默认程序打开，如htm。\n优化保存、另存为和文本修动标题标记逻辑。\n增加撤销，重做，子窗标题文本改动标识。\n增加子窗体类，实现Ctrl+滚轮缩放和保存打开文件的路径。\n增加使用默认程序预览文件。\n把上一个打开或保存的路径设置为打开或保存对话框的默认路径和文件名。\n增加放大、缩小。\n增加文本光标变化信号，光标所在行列显示在状态栏第二栏。\n状态栏分为2栏\n修复没有子窗口时预览引起的崩溃。\n增加预览功能。\n保存成功。\n修改字体颜色，背景色成功。\n新建文件成功，打开文件载入成功。\n选用QMdiArea作为主控件，增加窗口标签、平铺、层叠菜单。 \n制作主要菜单。";
     QDialog *dialog = new QDialog;
     dialog->setWindowTitle("更新历史");
     dialog->setFixedSize(400,300);
@@ -141,21 +141,21 @@ void MainWindow::on_action_new_triggered()
 
 void MainWindow::on_action_open_triggered()
 {
-    if(filename==""){
+    if (filename == "") {
         filename = QFileDialog::getOpenFileName(this, "打开文本", ".");
-    }else{
+    } else {
         filename = QFileDialog::getOpenFileName(this, "打开文本", path);
     }
-    if(!filename.isEmpty()){
+    if (!filename.isEmpty()) {
         open(filename);
     }
 }
 
-void MainWindow::open(QString filename)
+void MainWindow::open(QString fileName)
 {
     MdiChild *child = new MdiChild;
     ui->mdiArea->addSubWindow(child);
-    if(child->loadFile(filename)){
+    if (child->loadFile(fileName)) {
         path = child->path;
         LS1->setText("打开 " + child->path);
         LS2->setText("行,列：1,0");
@@ -171,14 +171,14 @@ void MainWindow::on_action_close_triggered()
 
 void MainWindow::on_action_save_triggered()
 {
-    if(ui->mdiArea->currentSubWindow()!=0){
+    if (ui->mdiArea->currentSubWindow() != 0) {
         path = ((MdiChild*)(ui->mdiArea->currentSubWindow()->widget()))->path;
-        if(path == ""){
+        if (path == "") {
             on_action_saveas_triggered();
-        }else{
+        } else {
             MdiChild *child = (MdiChild*)(ui->mdiArea->currentSubWindow()->widget());
             //((MdiChild*)(ui->mdiArea->currentSubWindow()->widget()))
-            if(child->save()){
+            if (child->save()) {
                 LS1->setText("保存 " + child->path);
             }
         }
@@ -204,29 +204,48 @@ void MainWindow::on_action_saveas_triggered()
 
 void MainWindow::on_action_run_triggered()
 {
-    if(ui->mdiArea->currentSubWindow()!=0){
+    if (ui->mdiArea->currentSubWindow() != 0) {
         QString filename1 = QFileInfo(((MdiChild*)(ui->mdiArea->currentSubWindow()->widget()))->path).fileName();
         QString suffix = QFileInfo(((MdiChild*)(ui->mdiArea->currentSubWindow()->widget()))->path).suffix().toLower();
-        QString filepath = QFileInfo(((MdiChild*)(ui->mdiArea->currentSubWindow()->widget()))->path).absolutePath()+"/";
-        QString s = ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->toPlainText();
-        //md
-        s.replace("#","<h1>");
-        s.replace("\n","</h1>");
-        s.replace("  ","<br>");        
-        //s.replace(QRegExp("!\[(.*)]\((.*)"),"<img src=\\2>");
-        s.replace("](", "<img src="+filepath);
-        s.replace(")", ">");
-        qDebug() << s;
-        MdiChild *child = new MdiChild;
-        ui->mdiArea->addSubWindow(child);
-        child->show();
-        child->setWindowTitle("预览 "+filename1);
-        child->setHtml(s);
-        connect(child, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChange()));
-        LS2->setText("行,列：1,0 ");
+        QString filepath = QFileInfo(((MdiChild*)(ui->mdiArea->currentSubWindow()->widget()))->path).absolutePath() + "/";
 
-        if(suffix=="htm" || suffix=="html"){
+        if (suffix == "md") {
+            QString s = ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->toPlainText();
+            s.replace("#","<h1>");
+            s.replace("\n","</h1>");
+            s.replace("  ","<br>");
+            //s.replace(QRegExp("!\[(.*)]\((.*)"),"<img src=\\2>");
+            s.replace("](", "<img src="+filepath);
+            s.replace(")", ">");
+            qDebug() << s;
+            MdiChild *child = new MdiChild;
+            ui->mdiArea->addSubWindow(child);
+            child->show();
+            child->setWindowTitle("预览 "+filename1);
+            child->setHtml(s);
+            connect(child, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChange()));
+            LS2->setText("行,列：1,0 ");
+        }
+
+        if (suffix == "htm" || suffix == "html") {
             QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+        }
+
+        if (suffix == "py") {
+            on_action_save_triggered();
+            LS1->setText("运行 " + path);
+            QProcess *process = new QProcess;
+            QString cmd = "python " + path;
+            qDebug() << cmd;
+            process->start(cmd);
+            //process->waitForFinished();
+            connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
+//          输出为空，失败
+//            QString PO = process->readAll();
+//            MdiChild *child = new MdiChild;
+//            child->setWindowTitle("调试 " + QFileInfo(path).fileName());
+//            child->setText(PO);
+//            ui->mdiArea->addSubWindow(child);
         }
     }
 }
@@ -472,4 +491,12 @@ void MainWindow::printDocument(QPrinter *printer)
         MdiChild *child = (MdiChild*)(ui->mdiArea->currentSubWindow()->widget());
         child->print(printer);
     }
+}
+
+void MainWindow::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
+{
+    QProcess *process = qobject_cast<QProcess*>(sender());
+    // 输出为空，失败
+    QString PO = process->readAll();
+    qDebug() << exitCode << exitStatus << PO;
 }
