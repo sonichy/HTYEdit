@@ -12,9 +12,7 @@ int main(int argc, char *argv[])
         QTextCodec::setCodecForLocale(QTextCodec::codecForLocale());
         QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     */
-
     MainWindow w;
     w.show();
-
     return app.exec();
 }
