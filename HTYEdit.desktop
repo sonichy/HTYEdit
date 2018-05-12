@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=海天鹰编辑器
 Comment=Edit text files
-Exec=/media/sonichy/job/HY/Linux/Qt/HTYEdit/HTYEdit
+Exec=/media/sonichy/job/HY/Linux/Qt/HTYEdit/HTYEdit %u
 Icon=/media/sonichy/job/HY/Linux/Qt/HTYEdit/icon.png
 Path=/media/sonichy/job/HY/Linux/Qt/HTYEdit
 Terminal=false

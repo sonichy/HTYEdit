@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-
+    qSetMessagePattern("[ %{file}: %{line} ] %{message}");
     /*  Qt5以下：
         QTextCodec *tc = QTextCodec::codecForName("UTF-8");
         QTextCodec::setCodecForTr(tc);
@@ -15,5 +15,6 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.show();
+
     return app.exec();
 }

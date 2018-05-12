@@ -34,7 +34,7 @@ void MdiChild::wheelEvent(QWheelEvent *e)
 
 bool MdiChild::loadFile(QString filename)
 {
-    path = filename;    
+    path = filename;
     setWindowTitle(QFileInfo(filename).fileName() + "[*]");
     // 检测编码
     QProcess *process = new QProcess;
