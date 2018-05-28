@@ -155,12 +155,12 @@ void MainWindow::on_action_open_triggered()
 void MainWindow::open(QString fileName)
 {
     MdiChild *child = new MdiChild;
+    connect(child, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChange()));
     ui->mdiArea->addSubWindow(child);
     if (child->loadFile(fileName)) {
         path = fileName;
         LS1->setText("打开 " + fileName);
         LS2->setText("行,列：1,0");
-        connect(child, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChange()));
         //SyntaxHighlight();
     }
 }
@@ -177,8 +177,7 @@ void MainWindow::on_action_save_triggered()
         if (path == "") {
             on_action_saveas_triggered();
         } else {
-            MdiChild *child = (MdiChild*)(ui->mdiArea->currentSubWindow()->widget());
-            //((MdiChild*)(ui->mdiArea->currentSubWindow()->widget()))
+            MdiChild *child = (MdiChild*)(ui->mdiArea->currentSubWindow()->widget());            
             if (child->save()) {
                 LS1->setText("保存 " + child->path);
             }
@@ -253,8 +252,10 @@ void MainWindow::on_action_run_triggered()
 
 void MainWindow::cursorPositionChange()
 {    
-    QTextCursor cursor = ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->textCursor();
-    LS2->setText(QString("行,列: %1,%2").arg(cursor.blockNumber()+1).arg(cursor.columnNumber()));
+    if(ui->mdiArea->currentSubWindow() != 0){
+        QTextCursor cursor = ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->textCursor();
+        LS2->setText(QString("行,列: %1,%2").arg(cursor.blockNumber()+1).arg(cursor.columnNumber()));
+    }
 }
 
 //菜单
