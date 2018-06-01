@@ -130,8 +130,8 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="action_run"/>
    <addaction name="action_font"/>
+   <addaction name="action_run"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_new">

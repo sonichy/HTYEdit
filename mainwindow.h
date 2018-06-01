@@ -25,6 +25,7 @@ public:
 
 private:
     void open(QString fileName);
+    QLineEdit *lineEdit_command;
     QLabel *LS1, *LS2, *LS3;
     QString filename, path;
     DialogFind *dialogFind;
@@ -63,6 +64,7 @@ private slots:
     void subWindowActivate(QMdiSubWindow *window);
     void printDocument(QPrinter *printer);
     void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void updateCommand();
 };
 
 #endif // MAINWINDOW_H

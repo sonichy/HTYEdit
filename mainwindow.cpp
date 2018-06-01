@@ -24,8 +24,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QDesktopWidget* desktop = QApplication::desktop();
-    move((desktop->width() - this->width())/2, (desktop->height() - this->height())/2);
+    move((QApplication::desktop()->width() - width())/2, (QApplication::desktop()->height() - height())/2);
+
+    lineEdit_command = new QLineEdit;
+    lineEdit_command->setFixedWidth(300);
+    lineEdit_command->setPlaceholderText("命令");
+    ui->mainToolBar->addWidget(lineEdit_command);
 
     LS1 = new QLabel("欢迎使用海天鹰编辑器！");
     LS1->setMinimumSize(500,20);
@@ -42,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->addWidget(LS2);
     ui->statusBar->addWidget(LS3);
     connect(ui->action_quit, SIGNAL(triggered()), qApp, SLOT(quit()));
-    connect(ui->mdiArea,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(subWindowActivate(QMdiSubWindow*)));
+    connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(subWindowActivate(QMdiSubWindow*)));
 
     dialogFind = new DialogFind(this);
     connect(dialogFind->ui->btnCancel,SIGNAL(clicked(bool)),dialogFind,SLOT(close()));
@@ -78,7 +82,7 @@ void MainWindow::on_action_about_triggered()
 
 void MainWindow::on_action_changelog_triggered()
 {
-    QString s = "1.2\n2018-05\n解决右键打开方式无法打开文件问题。\n增加运行python。\n2018-04\n增加打印功能。\n\n1.1\n2017-10\n增加获取文本编码(使用 file --mime-encoding 命令返回)，但是没有解决乱码问题。\n排版实验。\n用文本框代替消息框显示更新日志。\n2017-07\n增加拖放打开文件。\n2017-06\n增加语法高亮。\n提取打开文件的相对路径，使Markdown预览能够载入相对路径图片。\n\n1.0\n2017-03\n支持命令行打开文件和打开方式打开文件。\n查找窗口填入选中文本。\n2017-02\n根据文件扩展名选择语法高亮方案。\nJS语法高亮实验成功！\nHTML语法高亮实验成功！\n增加设置字体。\n设置状态栏左右边距。\n2017-01\n实现全部替换。\n设置循环查找。\n增加查找替换窗体和功能。\n根据文件扩展名决定是否使用默认程序打开，如htm。\n优化保存、另存为和文本修动标题标记逻辑。\n增加撤销，重做，子窗标题文本改动标识。\n增加子窗体类，实现Ctrl+滚轮缩放和保存打开文件的路径。\n增加使用默认程序预览文件。\n把上一个打开或保存的路径设置为打开或保存对话框的默认路径和文件名。\n增加放大、缩小。\n增加文本光标变化信号，光标所在行列显示在状态栏第二栏。\n状态栏分为2栏\n修复没有子窗口时预览引起的崩溃。\n增加预览功能。\n保存成功。\n修改字体颜色，背景色成功。\n新建文件成功，打开文件载入成功。\n选用QMdiArea作为主控件，增加窗口标签、平铺、层叠菜单。 \n制作主要菜单。";
+    QString s = "1.2\n2018-05\n增加c、cpp的OpenGL编译命令。\n2018-05\n解决右键打开方式无法打开文件问题。\n增加运行python。\n2018-04\n增加打印功能。\n\n1.1\n2017-10\n增加获取文本编码(使用 file --mime-encoding 命令返回)，但是没有解决乱码问题。\n排版实验。\n用文本框代替消息框显示更新日志。\n2017-07\n增加拖放打开文件。\n2017-06\n增加语法高亮。\n提取打开文件的相对路径，使Markdown预览能够载入相对路径图片。\n\n1.0\n2017-03\n支持命令行打开文件和打开方式打开文件。\n查找窗口填入选中文本。\n2017-02\n根据文件扩展名选择语法高亮方案。\nJS语法高亮实验成功！\nHTML语法高亮实验成功！\n增加设置字体。\n设置状态栏左右边距。\n2017-01\n实现全部替换。\n设置循环查找。\n增加查找替换窗体和功能。\n根据文件扩展名决定是否使用默认程序打开，如htm。\n优化保存、另存为和文本修动标题标记逻辑。\n增加撤销，重做，子窗标题文本改动标识。\n增加子窗体类，实现Ctrl+滚轮缩放和保存打开文件的路径。\n增加使用默认程序预览文件。\n把上一个打开或保存的路径设置为打开或保存对话框的默认路径和文件名。\n增加放大、缩小。\n增加文本光标变化信号，光标所在行列显示在状态栏第二栏。\n状态栏分为2栏\n修复没有子窗口时预览引起的崩溃。\n增加预览功能。\n保存成功。\n修改字体颜色，背景色成功。\n新建文件成功，打开文件载入成功。\n选用QMdiArea作为主控件，增加窗口标签、平铺、层叠菜单。 \n制作主要菜单。";
     QDialog *dialog = new QDialog;
     dialog->setWindowTitle("更新历史");
     dialog->setFixedSize(400,300);
@@ -162,6 +166,7 @@ void MainWindow::open(QString fileName)
         LS1->setText("打开 " + fileName);
         LS2->setText("行,列：1,0");
         //SyntaxHighlight();
+        updateCommand();
     }
 }
 
@@ -187,15 +192,15 @@ void MainWindow::on_action_save_triggered()
 
 void MainWindow::on_action_saveas_triggered()
 {
-    if(ui->mdiArea->currentSubWindow() != 0){
+    if (ui->mdiArea->currentSubWindow() != 0) {
         MdiChild *child = (MdiChild*)(ui->mdiArea->currentSubWindow()->widget());
         path = child->path;
-        if(path == ""){
+        if (path == "") {
             filename = QFileDialog::getSaveFileName(this, "保存文本", "./未命名");
-        }else{
+        } else {
             filename = QFileDialog::getSaveFileName(this, "保存文本", path);
         }
-        if(!filename.isEmpty()){
+        if (!filename.isEmpty()) {
             child->path = filename;
             on_action_save_triggered();
         }
@@ -215,23 +220,19 @@ void MainWindow::on_action_run_triggered()
             s.replace("\n","</h1>");
             s.replace("  ","<br>");
             //s.replace(QRegExp("!\[(.*)]\((.*)"),"<img src=\\2>");
-            s.replace("](", "<img src="+filepath);
+            s.replace("](", "<img src=" + filepath);
             s.replace(")", ">");
             qDebug() << s;
             MdiChild *child = new MdiChild;
             ui->mdiArea->addSubWindow(child);
             child->show();
-            child->setWindowTitle("预览 "+filename1);
+            child->setWindowTitle("预览 " + filename1);
             child->setHtml(s);
             connect(child, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChange()));
             LS2->setText("行,列：1,0 ");
-        }
-
-        if (suffix == "htm" || suffix == "html") {
+        } else if (suffix == "htm" || suffix == "html") {
             QDesktopServices::openUrl(QUrl::fromLocalFile(path));
-        }
-
-        if (suffix == "py") {
+        } else if (suffix == "py") {
             on_action_save_triggered();
             LS1->setText("运行 " + path);
             QProcess *process = new QProcess;
@@ -246,7 +247,28 @@ void MainWindow::on_action_run_triggered()
 //            child->setWindowTitle("调试 " + QFileInfo(path).fileName());
 //            child->setText(PO);
 //            ui->mdiArea->addSubWindow(child);
+        } else if (suffix == "c" || suffix == "cpp") {
+            if (((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->document()->isModified()) on_action_save_triggered();
+            QString command = lineEdit_command->text().arg(filename1).arg(QFileInfo(path).baseName());
+            LS1->setText(command);
+            QProcess *process_compile = new QProcess;
+            process_compile->setWorkingDirectory(filepath);
+            connect(process_compile, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [=](int exitCode, QProcess::ExitStatus exitStatus){
+                Q_UNUSED(exitCode);
+                Q_UNUSED(exitStatus);
+                qDebug() << process_compile->readAll();
+                QProcess *process_run = new QProcess;
+                process_run->setWorkingDirectory(filepath);
+                connect(process_run, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [=](int exitCode, QProcess::ExitStatus exitStatus){
+                    Q_UNUSED(exitCode);
+                    Q_UNUSED(exitStatus);
+                    qDebug() << process_run->readAll();
+                });
+                process_run->start(QFileInfo(path).baseName());
+            });
+            process_compile->start(command);
         }
+
     }
 }
 
@@ -363,12 +385,12 @@ void MainWindow::on_action_font_triggered()
     }
 }
 
-void MainWindow::SyntaxHighlight(){
+void MainWindow::SyntaxHighlight()
+{
     //自己写的高亮效率低，打开文件会卡死，弃用，引入QSyntaxHighlighter类。
-    QTextCursor cursor;
-    cursor=((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->textCursor();
-    QString suffix=QFileInfo(((MdiChild*)(ui->mdiArea->currentSubWindow()->widget()))->path).suffix().toLower();
-    if(suffix=="htm" || suffix=="html"){
+    QTextCursor cursor = ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->textCursor();
+    QString suffix = QFileInfo(((MdiChild*)(ui->mdiArea->currentSubWindow()->widget()))->path).suffix().toLower();
+    if (suffix == "htm" || suffix == "html") {
         //HTML
         QString str="!DOCTYPE,html,link,head,meta,body,title,style,script,p,br,pre,table,tr,td,input,div,img,a,h1,h2,h3,h4,h6,select,option,ul,ol,li,canvas,fieldset,legend,input,button";
         QStringList list=str.split(",");
@@ -376,19 +398,19 @@ void MainWindow::SyntaxHighlight(){
             //cursor=((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->textCursor();
             cursor.setPosition(0,QTextCursor::MoveAnchor);
             ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->setTextCursor(cursor);
-            while(((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->find("<"+list[i]+">")){
+            while(((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->find("<" + list[i] + ">")){
                 ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->setTextColor(QColor(255,0,0));
             }
             //cursor=((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->textCursor();
             cursor.setPosition(0,QTextCursor::MoveAnchor);
             ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->setTextCursor(cursor);
-            while(((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->find("<"+list[i])){
+            while(((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->find("<" + list[i])){
                 ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->setTextColor(QColor(255,0,0));
             }
             //cursor=((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->textCursor();
             cursor.setPosition(0,QTextCursor::MoveAnchor);
             ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->setTextCursor(cursor);
-            while(((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->find("</"+list[i]+">")){
+            while(((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->find("</" + list[i] + ">")){
                 ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->setTextColor(QColor(255,0,0));
             }
             //cursor=((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->textCursor();
@@ -400,9 +422,9 @@ void MainWindow::SyntaxHighlight(){
         }
 
         //HTML属性
-        str="id=,name=,http-equiv=,content=,width=,height=,align=,onchange=,value=,type=";
-        list=str.split(",");
-        for(int i=0;i<list.size();i++){
+        str = "id=,name=,http-equiv=,content=,width=,height=,align=,onchange=,value=,type=";
+        list = str.split(",");
+        for(int i=0; i<list.size(); i++){
             //cursor=((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->textCursor();
             cursor.setPosition(0,QTextCursor::MoveAnchor);
             ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->setTextCursor(cursor);
@@ -410,12 +432,11 @@ void MainWindow::SyntaxHighlight(){
                 ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->setTextColor(QColor(255,255,0));
             }
         }
-    }
-    if(suffix=="js" || suffix=="htm" || suffix=="html"){
+    } else if (suffix=="js") {
         //JS
-        QString str="window,event,var,new,Array(),Image(),push,document,getElementById,createElement,appendChild,console,.log,.style,backgroundColor,for,if,textContent,innerHTML,function,.src,.load,.complete,.onload,.width,.height,.value,beginPath(),lineTo,moveTo,stroke(),strokeStyle,getContext,eval,translate,textAlign,Math,.cos,.sin,.pow,.random,fillText,addEventListener,length,drawImage,.top,.bottom,.left,.right,onmousemove,onmouseup,offsetLeft,offsetRight,offsetTop,offsetBottom,offsetWidth,offsetHeight,this,options,selectedIndex,.text,setInterval,clearInterval";
-       QStringList list=str.split(",");
-        for(int i=0;i<list.size();i++){
+        QString str = "window,event,var,new,Array(),Image(),push,document,getElementById,createElement,appendChild,console,.log,.style,backgroundColor,for,if,textContent,innerHTML,function,.src,.load,.complete,.onload,.width,.height,.value,beginPath(),lineTo,moveTo,stroke(),strokeStyle,getContext,eval,translate,textAlign,Math,.cos,.sin,.pow,.random,fillText,addEventListener,length,drawImage,.top,.bottom,.left,.right,onmousemove,onmouseup,offsetLeft,offsetRight,offsetTop,offsetBottom,offsetWidth,offsetHeight,this,options,selectedIndex,.text,setInterval,clearInterval";
+        QStringList list = str.split(",");
+        for(int i=0; i<list.size(); i++){
             //cursor=((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->textCursor();
             cursor.setPosition(0,QTextCursor::MoveAnchor);
             ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->setTextCursor(cursor);
@@ -458,11 +479,12 @@ void MainWindow::dropEvent(QDropEvent *e) //释放对方时，执行的操作
 
 void MainWindow::subWindowActivate(QMdiSubWindow *window)
 {    
-    if(window){
+    if (window) {
         MdiChild *child = (MdiChild*)(window->widget());
         LS1->setText(child->path);
         LS3->setText(child->scodec);
-    }else{
+        updateCommand();
+    } else {
         LS1->setText("");
         LS2->setText("");
         LS3->setText("");
@@ -501,4 +523,14 @@ void MainWindow::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
     // 输出为空，失败
     QString PO = process->readAll();
     qDebug() << exitCode << exitStatus << PO;
+}
+
+void MainWindow::updateCommand()
+{
+    if (ui->mdiArea->currentSubWindow() != 0) {
+        QString s = ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->toPlainText();
+        if (s.contains("#include <GL/")) {
+            lineEdit_command->setText("gcc %1 -o %2 -l GL -l GLU -l glut");
+        }
+    }
 }
