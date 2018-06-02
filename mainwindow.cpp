@@ -234,7 +234,7 @@ void MainWindow::on_action_run_triggered()
             QDesktopServices::openUrl(QUrl::fromLocalFile(path));
         } else if (suffix == "py") {
             on_action_save_triggered();
-            LS1->setText("运行 " + path);
+            LS1->setText("python " + path);
             QProcess *process = new QProcess;
             QString cmd = "python " + path;
             qDebug() << cmd;
@@ -264,8 +264,10 @@ void MainWindow::on_action_run_triggered()
                     Q_UNUSED(exitStatus);
                     qDebug() << process_run->readAll();
                 });
-                process_run->start(QFileInfo(path).baseName());
+                QString command2 = "./" + QFileInfo(path).baseName();
+                process_run->start(command2);
             });
+            qDebug() << command;
             process_compile->start(command);
         }
 
@@ -481,7 +483,8 @@ void MainWindow::subWindowActivate(QMdiSubWindow *window)
 {    
     if (window) {
         MdiChild *child = (MdiChild*)(window->widget());
-        LS1->setText(child->path);
+        path = child->path;
+        LS1->setText(path);
         LS3->setText(child->scodec);
         updateCommand();
     } else {
@@ -530,7 +533,7 @@ void MainWindow::updateCommand()
     if (ui->mdiArea->currentSubWindow() != 0) {
         QString s = ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->toPlainText();
         if (s.contains("#include <GL/")) {
-            lineEdit_command->setText("gcc %1 -o %2 -l GL -l GLU -l glut");
+            lineEdit_command->setText("g++ %1 -o %2 -l GL -l GLU -l glut");
         }
     }
 }
