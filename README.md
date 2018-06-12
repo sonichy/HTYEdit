@@ -7,5 +7,6 @@ Linux 平台基于 Qt 的文字编辑程序。
 ### 1.1 [新增语法高亮](http://www.cnblogs.com/lenxvp/p/5475931.html)
 高亮类具体工作过程没看懂，因为很好用先用着。
 
-### 已知问题：
-通过右键加载文本，点击文本区域会崩溃。
+### 参考：
+多文档编辑器：http://www.qter.org/portal.php?mod=view&aid=10
+编译、运行输出：https://github.com/m-iDev-0792/HJ-Editor

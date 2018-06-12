@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     lineEdit_command->setFixedWidth(300);
     lineEdit_command->setPlaceholderText("命令");
     ui->mainToolBar->addWidget(lineEdit_command);
+    ui->textBrowser->hide();
 
     LS1 = new QLabel("欢迎使用海天鹰编辑器！");
     LS1->setMinimumSize(500,20);
@@ -74,7 +75,7 @@ void MainWindow::on_action_aboutQt_triggered()
 
 void MainWindow::on_action_about_triggered()
 {
-    QMessageBox aboutMB(QMessageBox::NoIcon, "关于", "海天鹰编辑器 1.2\n\n一款基于 Qt 的文本编辑程序。\n作者：黄颖\nE-mail: sonichy@163.com\n主页：sonichy.96.lt\n参考文献：\n多文档编辑器：http://www.qter.org/?page_id=161\nQMdiArea基本用法：http://www.mamicode.com/info-detail-1607476.html\n保存文本：http://blog.csdn.net/neicole/article/details/7330234\n语法高亮：http://www.cnblogs.com/lenxvp/p/5475931.html\n拖放打开文件：http://blog.csdn.net/rl529014/article/details/53057577");
+    QMessageBox aboutMB(QMessageBox::NoIcon, "关于", "海天鹰编辑器 1.3\n\n一款基于 Qt 的文本编辑程序。\n作者：黄颖\nE-mail: sonichy@163.com\n主页：sonichy.96.lt\n参考文献：\n多文档编辑器：http://www.qter.org/?page_id=161\nQMdiArea基本用法：http://www.mamicode.com/info-detail-1607476.html\n保存文本：http://blog.csdn.net/neicole/article/details/7330234\n语法高亮：http://www.cnblogs.com/lenxvp/p/5475931.html\n拖放打开文件：http://blog.csdn.net/rl529014/article/details/53057577");
     aboutMB.setIconPixmap(QPixmap(":/icon.png"));
     aboutMB.setWindowIcon(QIcon(":/icon.png"));
     aboutMB.exec();
@@ -82,7 +83,7 @@ void MainWindow::on_action_about_triggered()
 
 void MainWindow::on_action_changelog_triggered()
 {
-    QString s = "1.2\n2018-05\n增加c、cpp的OpenGL编译命令。\n2018-05\n解决右键打开方式无法打开文件问题。\n增加运行python。\n2018-04\n增加打印功能。\n\n1.1\n2017-10\n增加获取文本编码(使用 file --mime-encoding 命令返回)，但是没有解决乱码问题。\n排版实验。\n用文本框代替消息框显示更新日志。\n2017-07\n增加拖放打开文件。\n2017-06\n增加语法高亮。\n提取打开文件的相对路径，使Markdown预览能够载入相对路径图片。\n\n1.0\n2017-03\n支持命令行打开文件和打开方式打开文件。\n查找窗口填入选中文本。\n2017-02\n根据文件扩展名选择语法高亮方案。\nJS语法高亮实验成功！\nHTML语法高亮实验成功！\n增加设置字体。\n设置状态栏左右边距。\n2017-01\n实现全部替换。\n设置循环查找。\n增加查找替换窗体和功能。\n根据文件扩展名决定是否使用默认程序打开，如htm。\n优化保存、另存为和文本修动标题标记逻辑。\n增加撤销，重做，子窗标题文本改动标识。\n增加子窗体类，实现Ctrl+滚轮缩放和保存打开文件的路径。\n增加使用默认程序预览文件。\n把上一个打开或保存的路径设置为打开或保存对话框的默认路径和文件名。\n增加放大、缩小。\n增加文本光标变化信号，光标所在行列显示在状态栏第二栏。\n状态栏分为2栏\n修复没有子窗口时预览引起的崩溃。\n增加预览功能。\n保存成功。\n修改字体颜色，背景色成功。\n新建文件成功，打开文件载入成功。\n选用QMdiArea作为主控件，增加窗口标签、平铺、层叠菜单。 \n制作主要菜单。";
+    QString s = "1.3\n2018-06\n增加调试窗口。\n\n1.2\n2018-05\n增加c、cpp的OpenGL编译命令。\n2018-05\n解决右键打开方式无法打开文件问题。\n增加运行python。\n2018-04\n增加打印功能。\n\n1.1\n2017-10\n增加获取文本编码(使用 file --mime-encoding 命令返回)，但是没有解决乱码问题。\n排版实验。\n用文本框代替消息框显示更新日志。\n2017-07\n增加拖放打开文件。\n2017-06\n增加语法高亮。\n提取打开文件的相对路径，使Markdown预览能够载入相对路径图片。\n\n1.0\n2017-03\n支持命令行打开文件和打开方式打开文件。\n查找窗口填入选中文本。\n2017-02\n根据文件扩展名选择语法高亮方案。\nJS语法高亮实验成功！\nHTML语法高亮实验成功！\n增加设置字体。\n设置状态栏左右边距。\n2017-01\n实现全部替换。\n设置循环查找。\n增加查找替换窗体和功能。\n根据文件扩展名决定是否使用默认程序打开，如htm。\n优化保存、另存为和文本修动标题标记逻辑。\n增加撤销，重做，子窗标题文本改动标识。\n增加子窗体类，实现Ctrl+滚轮缩放和保存打开文件的路径。\n增加使用默认程序预览文件。\n把上一个打开或保存的路径设置为打开或保存对话框的默认路径和文件名。\n增加放大、缩小。\n增加文本光标变化信号，光标所在行列显示在状态栏第二栏。\n状态栏分为2栏\n修复没有子窗口时预览引起的崩溃。\n增加预览功能。\n保存成功。\n修改字体颜色，背景色成功。\n新建文件成功，打开文件载入成功。\n选用QMdiArea作为主控件，增加窗口标签、平铺、层叠菜单。 \n制作主要菜单。";
     QDialog *dialog = new QDialog;
     dialog->setWindowTitle("更新历史");
     dialog->setFixedSize(400,300);
@@ -92,14 +93,14 @@ void MainWindow::on_action_changelog_triggered()
     textBrowser->zoomIn();
     vbox->addWidget(textBrowser);
     QHBoxLayout *hbox = new QHBoxLayout;
-    QPushButton *btnConfirm = new QPushButton("确定");
+    QPushButton *pushbutton_confirm = new QPushButton("确定");
     hbox->addStretch();
-    hbox->addWidget(btnConfirm);
+    hbox->addWidget(pushbutton_confirm);
     hbox->addStretch();
     vbox->addLayout(hbox);
     dialog->setLayout(vbox);
     dialog->show();
-    connect(btnConfirm, SIGNAL(clicked()), dialog, SLOT(accept()));
+    connect(pushbutton_confirm, SIGNAL(clicked()), dialog, SLOT(accept()));
     if(dialog->exec() == QDialog::Accepted){
         dialog->close();
     }
@@ -234,43 +235,42 @@ void MainWindow::on_action_run_triggered()
             QDesktopServices::openUrl(QUrl::fromLocalFile(path));
         } else if (suffix == "py") {
             on_action_save_triggered();
-            LS1->setText("python " + path);
+            //LS1->setText("python " + path);
             QProcess *process = new QProcess;
-            QString cmd = "python " + path;
-            qDebug() << cmd;
-            process->start(cmd);
-            //process->waitForFinished();
-            connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
-//          输出为空，失败
-//            QString PO = process->readAll();
-//            MdiChild *child = new MdiChild;
-//            child->setWindowTitle("调试 " + QFileInfo(path).fileName());
-//            child->setText(PO);
-//            ui->mdiArea->addSubWindow(child);
+            process->setWorkingDirectory(filepath);
+            //QString command = "python " + path;
+            QString command = lineEdit_command->text().arg("./" + QFileInfo(path).fileName());
+            qDebug() << command;
+            ui->textBrowser->setText("");
+            ui->textBrowser->append(command);
+            connect(process, SIGNAL(readyReadStandardOutput()), this, SLOT(printOutput()));
+            connect(process, SIGNAL(readyReadStandardError()), this, SLOT(printError()));
+            process->start(command);
         } else if (suffix == "c" || suffix == "cpp") {
             if (((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->document()->isModified()) on_action_save_triggered();
             QString command = lineEdit_command->text().arg(filename1).arg(QFileInfo(path).baseName());
             LS1->setText(command);
+            ui->textBrowser->setText("");
+            ui->textBrowser->append(command);
             QProcess *process_compile = new QProcess;
             process_compile->setWorkingDirectory(filepath);
+            connect(process_compile, SIGNAL(readyReadStandardOutput()), this, SLOT(printOutput()));
+            connect(process_compile, SIGNAL(readyReadStandardError()), this, SLOT(printError()));
             connect(process_compile, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [=](int exitCode, QProcess::ExitStatus exitStatus){
                 Q_UNUSED(exitCode);
                 Q_UNUSED(exitStatus);
-                qDebug() << process_compile->readAll();
+                qDebug() << exitCode << exitStatus;
                 QProcess *process_run = new QProcess;
                 process_run->setWorkingDirectory(filepath);
-                connect(process_run, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [=](int exitCode, QProcess::ExitStatus exitStatus){
-                    Q_UNUSED(exitCode);
-                    Q_UNUSED(exitStatus);
-                    qDebug() << process_run->readAll();
-                });
+                connect(process_run, SIGNAL(readyReadStandardOutput()), this, SLOT(printOutput()));
+                connect(process_run, SIGNAL(readyReadStandardError()), this, SLOT(printError()));
                 QString command2 = "./" + QFileInfo(path).baseName();
+                ui->textBrowser->append(command2);
                 process_run->start(command2);
             });
             qDebug() << command;
             process_compile->start(command);
         }
-
     }
 }
 
@@ -520,20 +520,38 @@ void MainWindow::printDocument(QPrinter *printer)
     }
 }
 
-void MainWindow::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
-{
-    QProcess *process = qobject_cast<QProcess*>(sender());
-    // 输出为空，失败
-    QString PO = process->readAll();
-    qDebug() << exitCode << exitStatus << PO;
-}
-
 void MainWindow::updateCommand()
 {
     if (ui->mdiArea->currentSubWindow() != 0) {
-        QString s = ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->toPlainText();
-        if (s.contains("#include <GL/")) {
-            lineEdit_command->setText("g++ %1 -o %2 -l GL -l GLU -l glut");
+        QString suffix = QFileInfo(((MdiChild*)(ui->mdiArea->currentSubWindow()->widget()))->path).suffix().toLower();
+        if (suffix == "c" || suffix == "cpp") {
+            ui->textBrowser->show();
+            QString s = ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->toPlainText();
+            if (s.contains("#include <GL/")) {
+                lineEdit_command->setText("g++ %1 -o %2 -l GL -l GLU -l glut");
+            } else {
+                lineEdit_command->setText("g++ %1 -o %2");
+            }
+        } else if (suffix == "py") {
+            ui->textBrowser->show();
+            lineEdit_command->setText("python %1");
+        } else {
+            lineEdit_command->setText("");
+            ui->textBrowser->hide();
         }
     }
+}
+
+void MainWindow::printOutput()
+{
+    QProcess *process = qobject_cast<QProcess*>(sender());
+    //qDebug() << process->readAllStandardOutput();
+    ui->textBrowser->append(process->readAllStandardOutput());
+}
+
+void MainWindow::printError()
+{
+    QProcess *process = qobject_cast<QProcess*>(sender());
+    //qDebug() << process->readAllStandardError();
+    ui->textBrowser->append(process->readAllStandardError());
 }

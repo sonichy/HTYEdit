@@ -63,8 +63,9 @@ private slots:
     void cursorPositionChange();
     void subWindowActivate(QMdiSubWindow *window);
     void printDocument(QPrinter *printer);
-    void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void updateCommand();
+    void printOutput();
+    void printError();
 };
 
 #endif // MAINWINDOW_H
