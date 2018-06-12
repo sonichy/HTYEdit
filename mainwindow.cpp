@@ -527,7 +527,12 @@ void MainWindow::updateCommand()
         if (suffix == "c" || suffix == "cpp") {
             ui->textBrowser->show();
             QString s = ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->toPlainText();
-            if (s.contains("#include <GL/")) {
+            QStringList SL;
+            foreach (const QString &str, s.split("\n")) {
+                if (str.startsWith("#include"))
+                    SL += str;
+            }
+            if (SL.contains("#include <GL/")) {
                 lineEdit_command->setText("g++ %1 -o %2 -l GL -l GLU -l glut");
             } else {
                 lineEdit_command->setText("g++ %1 -o %2");
