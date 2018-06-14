@@ -18,6 +18,7 @@
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
 #include <QPainter>
+//#include <QRegExp>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -527,16 +528,24 @@ void MainWindow::updateCommand()
         if (suffix == "c" || suffix == "cpp") {
             ui->textBrowser->show();
             QString s = ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->toPlainText();
-            QStringList SL;
-            foreach (const QString &str, s.split("\n")) {
-                if (str.startsWith("#include"))
-                    SL += str;
+            QStringList SL = s.split("\n");
+            QStringList SLI = SL.filter(QRegExp("^#include"));;
+//            QStringList SLI;
+//            foreach (const QString &str, SL) {
+//                if (str.startsWith("#include"))
+//                    SLI += str;
+//            }
+            QString command = "";
+            for(int i=0; i<SLI.length(); i++){
+                qDebug() << SLI.at(i);
+                if (SLI.at(i).contains("#include <GL/")) {
+                    command = "g++ %1 -o %2 -l GL -l GLU -l glut";
+                    break;
+                } else {
+                    command = "g++ %1 -o %2";
+                }
             }
-            if (SL.contains("#include <GL/")) {
-                lineEdit_command->setText("g++ %1 -o %2 -l GL -l GLU -l glut");
-            } else {
-                lineEdit_command->setText("g++ %1 -o %2");
-            }
+            lineEdit_command->setText(command);
         } else if (suffix == "py") {
             ui->textBrowser->show();
             lineEdit_command->setText("python %1");
