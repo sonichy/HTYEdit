@@ -184,7 +184,7 @@ void MainWindow::on_action_save_triggered()
         if (path == "") {
             on_action_saveas_triggered();
         } else {
-            MdiChild *child = (MdiChild*)(ui->mdiArea->currentSubWindow()->widget());            
+            MdiChild *child = (MdiChild*)(ui->mdiArea->currentSubWindow()->widget());
             if (child->save()) {
                 LS1->setText("保存 " + child->path);
             }

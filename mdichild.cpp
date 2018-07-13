@@ -11,7 +11,10 @@
 #include <QProcess>
 
 MdiChild::MdiChild()
-{    
+{
+    QFontMetrics FM(font());
+    int ts = 4;
+    setTabStopWidth(ts * FM.boundingRect("*").width());
     connect(document(),SIGNAL(contentsChanged()),this,SLOT(onContentsChanged()));
 }
 
@@ -63,7 +66,7 @@ bool MdiChild::loadFile(QString filename)
         Highlighter *highlighter = new Highlighter(document());
         Q_UNUSED(highlighter);
         showMaximized();
-        zoomIn(4);        
+        zoomIn(4);
         return true;
     }else{
         QMessageBox::warning(this,"错误", QString(" %1:\n%2").arg(path).arg(file->errorString()));
