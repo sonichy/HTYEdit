@@ -28,6 +28,7 @@ private slots:
     void contentsChange();
     void updateLineNumberAreaWidth(int newBlockCount);
     void updateLineNumberArea(const QRect &, int);
+    void setReadOnlyA(bool ro);
 };
 
 

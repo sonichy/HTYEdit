@@ -1,11 +1,10 @@
 [Desktop Entry]
 Name=海天鹰编辑器
-Comment=Edit text files
+Comment=Media player
 Exec=/media/sonichy/job/HY/Linux/Qt/HTYEdit/HTYEdit %u
 Icon=/media/sonichy/job/HY/Linux/Qt/HTYEdit/icon.png
 Path=/media/sonichy/job/HY/Linux/Qt/HTYEdit
 Terminal=false
 Type=Application
-StartupNotify=true
 MimeType=text/plain;
-Categories=GNOME;GTK;Utility;TextEditor;
+Categories=TextEditor;

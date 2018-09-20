@@ -102,25 +102,23 @@ void MdiChild::wheelEvent(QWheelEvent *e)
 
 void MdiChild::keyPressEvent(QKeyEvent *e)
 {
+    // 自动补全
     if(e->key() == Qt::Key_ParenLeft){
-        insertPlainText(" )");
-        QTextCursor c = textCursor();
-        c.movePosition(QTextCursor::Left,QTextCursor::MoveAnchor,2);
+        insertPlainText("()");
+        moveCursor(QTextCursor::Left, QTextCursor::MoveAnchor);
+    }else if(e->key() == Qt::Key_BraceLeft){
+        insertPlainText("{}");
+        moveCursor(QTextCursor::Left, QTextCursor::MoveAnchor);
+    }else if(e->key() == Qt::Key_BracketLeft){
+        insertPlainText("[]");
+        moveCursor(QTextCursor::Left, QTextCursor::MoveAnchor);
+    }else{
+        return QPlainTextEdit::keyPressEvent(e);
     }
-    if(e->key() == Qt::Key_BraceLeft){
-        insertPlainText(" }");
-        QTextCursor c = textCursor();
-        c.movePosition(QTextCursor::Left,QTextCursor::MoveAnchor,2);
-    }
-    if(e->key() == Qt::Key_BracketLeft){
-        insertPlainText(" ]");
-        QTextCursor c = textCursor();
-        c.movePosition(QTextCursor::Left,QTextCursor::MoveAnchor,2);
-    }
-    return QPlainTextEdit::keyPressEvent(e);
 }
 
 
+// 生成行号
 void MdiChild::lineNumberAreaPaintEvent(QPaintEvent *event)
 {
     QPainter painter(lineNumberArea);
@@ -176,4 +174,9 @@ void MdiChild::updateLineNumberArea(const QRect &rect, int dy)
 void MdiChild::updateLineNumberAreaWidth(int /* newBlockCount */)
 {
     setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
+}
+
+void MdiChild::setReadOnlyA(bool ro)
+{
+    setReadOnly(ro);
 }
