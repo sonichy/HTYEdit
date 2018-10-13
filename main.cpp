@@ -14,5 +14,9 @@ int main(int argc, char *argv[])
     */
     MainWindow w;
     w.show();
+
+    //在新标签里打开文件
+    //https://github.com/linuxdeepin/deepin-editor/blob/209eac26c54fe6d2562dd8e00608b8d62b328529/src/main.cpp#L69
+    //QDBusInterface.callWithArgumentList
     return app.exec();
 }

@@ -6,5 +6,5 @@ Icon=/media/sonichy/job/HY/Linux/Qt/HTYEdit/icon.png
 Path=/media/sonichy/job/HY/Linux/Qt/HTYEdit
 Terminal=false
 Type=Application
-MimeType=text/plain;
+MimeType=text/plain;text/html;image/svg+xml;
 Categories=TextEditor;
