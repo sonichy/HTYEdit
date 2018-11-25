@@ -20,7 +20,7 @@ private:
     LineNumberArea *lineNumberArea;
 
 protected:
-    void wheelEvent(QWheelEvent*);
+    void wheelEvent(QWheelEvent *e);
     void keyPressEvent(QKeyEvent *e);
     void resizeEvent(QResizeEvent* e);
 

@@ -70,7 +70,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -144,6 +144,9 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_new">
+   <property name="icon">
+    <iconset theme="document-new"/>
+   </property>
    <property name="text">
     <string>新建</string>
    </property>
@@ -152,6 +155,9 @@
    </property>
   </action>
   <action name="action_open">
+   <property name="icon">
+    <iconset theme="document-open"/>
+   </property>
    <property name="text">
     <string>打开</string>
    </property>
@@ -160,6 +166,9 @@
    </property>
   </action>
   <action name="action_close">
+   <property name="icon">
+    <iconset theme="window-close"/>
+   </property>
    <property name="text">
     <string>关闭</string>
    </property>
@@ -168,6 +177,9 @@
    </property>
   </action>
   <action name="action_save">
+   <property name="icon">
+    <iconset theme="document-save"/>
+   </property>
    <property name="text">
     <string>保存</string>
    </property>
@@ -176,6 +188,9 @@
    </property>
   </action>
   <action name="action_saveas">
+   <property name="icon">
+    <iconset theme="document-save-as"/>
+   </property>
    <property name="text">
     <string>另存为</string>
    </property>
@@ -184,6 +199,9 @@
    </property>
   </action>
   <action name="action_quit">
+   <property name="icon">
+    <iconset theme="application-exit"/>
+   </property>
    <property name="text">
     <string>退出</string>
    </property>
@@ -192,6 +210,9 @@
    </property>
   </action>
   <action name="action_undo">
+   <property name="icon">
+    <iconset theme="edit-undo"/>
+   </property>
    <property name="text">
     <string>撤销</string>
    </property>
@@ -200,6 +221,9 @@
    </property>
   </action>
   <action name="action_redo">
+   <property name="icon">
+    <iconset theme="edit-redo"/>
+   </property>
    <property name="text">
     <string>重做</string>
    </property>
@@ -208,6 +232,9 @@
    </property>
   </action>
   <action name="action_copy">
+   <property name="icon">
+    <iconset theme="edit-copy"/>
+   </property>
    <property name="text">
     <string>复制</string>
    </property>
@@ -216,6 +243,9 @@
    </property>
   </action>
   <action name="action_cut">
+   <property name="icon">
+    <iconset theme="edit-cut"/>
+   </property>
    <property name="text">
     <string>剪切</string>
    </property>
@@ -224,6 +254,9 @@
    </property>
   </action>
   <action name="action_paste">
+   <property name="icon">
+    <iconset theme="edit-paste"/>
+   </property>
    <property name="text">
     <string>粘贴</string>
    </property>
@@ -240,6 +273,9 @@
    </property>
   </action>
   <action name="action_find">
+   <property name="icon">
+    <iconset theme="edit-find"/>
+   </property>
    <property name="text">
     <string>查找</string>
    </property>
@@ -248,6 +284,9 @@
    </property>
   </action>
   <action name="action_replace">
+   <property name="icon">
+    <iconset theme="edit-find-replace"/>
+   </property>
    <property name="text">
     <string>替换</string>
    </property>
@@ -256,11 +295,17 @@
    </property>
   </action>
   <action name="action_aboutQt">
+   <property name="icon">
+    <iconset theme="help-faq"/>
+   </property>
    <property name="text">
     <string>关于Qt</string>
    </property>
   </action>
   <action name="action_about">
+   <property name="icon">
+    <iconset theme="help-about"/>
+   </property>
    <property name="text">
     <string>关于</string>
    </property>
@@ -289,14 +334,16 @@
    </property>
   </action>
   <action name="action_changelog">
+   <property name="icon">
+    <iconset theme="help-contents"/>
+   </property>
    <property name="text">
     <string>更新历史</string>
    </property>
   </action>
   <action name="action_run">
    <property name="icon">
-    <iconset resource="qtrf.qrc">
-     <normaloff>:/run.png</normaloff>:/run.png</iconset>
+    <iconset theme="system-run"/>
    </property>
    <property name="text">
     <string>运行</string>
@@ -309,6 +356,9 @@
    </property>
   </action>
   <action name="action_zoomin">
+   <property name="icon">
+    <iconset theme="zoom-in"/>
+   </property>
    <property name="text">
     <string>放大</string>
    </property>
@@ -317,6 +367,9 @@
    </property>
   </action>
   <action name="action_zoomout">
+   <property name="icon">
+    <iconset theme="zoom-out"/>
+   </property>
    <property name="text">
     <string>缩小</string>
    </property>
@@ -326,14 +379,16 @@
   </action>
   <action name="action_font">
    <property name="icon">
-    <iconset resource="qtrf.qrc">
-     <normaloff>:/font.png</normaloff>:/font.png</iconset>
+    <iconset theme="preferences-desktop-font"/>
    </property>
    <property name="text">
     <string>字体</string>
    </property>
   </action>
   <action name="action_print">
+   <property name="icon">
+    <iconset theme="document-print"/>
+   </property>
    <property name="text">
     <string>打印</string>
    </property>
@@ -342,6 +397,9 @@
    </property>
   </action>
   <action name="action_printPreview">
+   <property name="icon">
+    <iconset theme="document-print-preview"/>
+   </property>
    <property name="text">
     <string>打印预览</string>
    </property>

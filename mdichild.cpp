@@ -44,11 +44,11 @@ bool MdiChild::loadFile(QString filename)
         plt.setColor(QPalette::Text,QColor(Qt::white));
         plt.setBrush(QPalette::Base,QBrush(Qt::black));
         setPalette(plt);
-        QTextStream ts(file);
+        QTextStream TS(file);
         // 还是乱码
         QTextCodec *codec = QTextCodec::codecForName(scodec.toLatin1());
-        ts.setCodec(codec);
-        QString s = ts.readAll();
+        TS.setCodec(codec);
+        QString s = TS.readAll();
         file->close();
         delete file;
         setPlainText(s);
