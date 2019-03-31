@@ -20,6 +20,7 @@ public:
 private:
     QSettings settings;
     LineNumberArea *lineNumberArea;
+    QFont font;
 
 protected:
     void wheelEvent(QWheelEvent *e);

@@ -16,7 +16,17 @@ MdiChild::MdiChild(QWidget *parent) :
     settings(QCoreApplication::organizationName(), QCoreApplication::applicationName())
 {
     setViewportMargins(50, 0, 0, 0);
-    QFontMetrics FM(font());
+
+    QString sfont = settings.value("Font").toString();
+    if (sfont == "") {
+        font = qApp->font();
+    } else {
+        QStringList SLFont = sfont.split(",");
+        font = QFont(SLFont.at(0),SLFont.at(1).toInt(),SLFont.at(2).toInt(),SLFont.at(3).toInt());
+    }
+    ((QTextEdit*)(this))->setCurrentFont(font);
+
+    QFontMetrics FM(font);
     int ts = 4;
     setTabStopWidth(ts * FM.boundingRect("*").width());
     connect(document(), SIGNAL(contentsChanged()), this, SLOT(contentsChange()));
@@ -26,15 +36,7 @@ MdiChild::MdiChild(QWidget *parent) :
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
 
 
-    QString sfont = settings.value("Font").toString();
-    QFont font;
-    if (sfont == "") {
-        font = qApp->font();
-    } else {
-        QStringList SLFont = sfont.split(",");
-        font = QFont(SLFont.at(0),SLFont.at(1).toInt(),SLFont.at(2).toInt(),SLFont.at(3).toInt());
-    }
-    ((QTextEdit*)(this))->setCurrentFont(font);
+
 }
 
 bool MdiChild::loadFile(QString filename)
@@ -103,12 +105,19 @@ void MdiChild::contentsChange()
 void MdiChild::wheelEvent(QWheelEvent *e)
 {
     if(QApplication::keyboardModifiers() == Qt::ControlModifier){
-        if(e->delta() > 0){
-            zoomIn();
-        }else{
-            zoomOut();
+        QTextCursor cursor = this->textCursor();
+        selectAll();
+        font = ((QTextEdit*)(this))->currentFont();
+        qDebug() << ((QTextEdit*)(this))->fontPointSize();
+        if (e->delta() > 0) {
+            ((QTextEdit*)(this))->setFontPointSize(((QTextEdit*)(this))->fontPointSize() + 1);
+        } else {
+            if(((QTextEdit*)(this))->fontPointSize() > 1)
+                ((QTextEdit*)(this))->setFontPointSize(((QTextEdit*)(this))->fontPointSize() - 1);
         }
-    }else{
+        setTextCursor(cursor);
+        lineNumberArea->update();
+    } else {
         QPlainTextEdit::wheelEvent(e);
     }
 }
@@ -116,20 +125,22 @@ void MdiChild::wheelEvent(QWheelEvent *e)
 void MdiChild::keyPressEvent(QKeyEvent *e)
 {
     // 自动补全
-    if(e->key() == Qt::Key_ParenLeft){
+    if (e->key() == Qt::Key_ParenLeft) {
         insertPlainText("()");
         moveCursor(QTextCursor::Left, QTextCursor::MoveAnchor);
-    }else if(e->key() == Qt::Key_BraceLeft){
+    } else if (e->key() == Qt::Key_BraceLeft) {
         insertPlainText("{}");
         moveCursor(QTextCursor::Left, QTextCursor::MoveAnchor);
-    }else if(e->key() == Qt::Key_BracketLeft){
+    } else if (e->key() == Qt::Key_BracketLeft) {
         insertPlainText("[]");
         moveCursor(QTextCursor::Left, QTextCursor::MoveAnchor);
-    }else{
+    } else if ((e->modifiers() & Qt::ControlModifier) && e->key() == Qt::Key_Slash) {
+        qDebug() << "Ctrl+/";
+
+    } else {
         return QPlainTextEdit::keyPressEvent(e);
     }
 }
-
 
 // 生成行号
 void MdiChild::lineNumberAreaPaintEvent(QPaintEvent *event)
@@ -144,7 +155,10 @@ void MdiChild::lineNumberAreaPaintEvent(QPaintEvent *event)
         if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = QString::number(blockNumber + 1);
             painter.setPen(Qt::white);
-            painter.drawText(0, top, lineNumberArea->width(), fontMetrics().height(), Qt::AlignRight, number);
+            painter.setFont(font);
+            QFontMetrics FM(font);
+            //painter.drawText(0, top, lineNumberArea->width(), fontMetrics().height(), Qt::AlignRight, number);
+            painter.drawText(0, top, lineNumberArea->width(), FM.boundingRect(number).height(), Qt::AlignRight, number);
         }
         block = block.next();
         top = bottom;
@@ -162,7 +176,8 @@ int MdiChild::lineNumberAreaWidth()
         ++digits;
     }
     //int space = 3 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
-    int space = 3 + fontMetrics().width(QLatin1Char('9')) * digits;
+    QFontMetrics FM(font);
+    int space = 5 + FM.width(QLatin1Char('9')) * digits;
     return space;
 }
 
@@ -189,7 +204,7 @@ void MdiChild::updateLineNumberAreaWidth(int /* newBlockCount */)
     setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
 }
 
-void MdiChild::setReadOnlyA(bool ro)
+void MdiChild::setReadOnlyA(bool b)
 {
-    setReadOnly(ro);
+    setReadOnly(b);
 }
