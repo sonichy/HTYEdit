@@ -11,7 +11,9 @@
 #include <QProcess>
 #include <QPainter>
 
-MdiChild::MdiChild(QWidget *parent) : QPlainTextEdit(parent)
+MdiChild::MdiChild(QWidget *parent) :
+    QPlainTextEdit(parent),
+    settings(QCoreApplication::organizationName(), QCoreApplication::applicationName())
 {
     setViewportMargins(50, 0, 0, 0);
     QFontMetrics FM(font());
@@ -22,6 +24,17 @@ MdiChild::MdiChild(QWidget *parent) : QPlainTextEdit(parent)
     lineNumberArea = new LineNumberArea(this);
     connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
+
+
+    QString sfont = settings.value("Font").toString();
+    QFont font;
+    if (sfont == "") {
+        font = qApp->font();
+    } else {
+        QStringList SLFont = sfont.split(",");
+        font = QFont(SLFont.at(0),SLFont.at(1).toInt(),SLFont.at(2).toInt(),SLFont.at(3).toInt());
+    }
+    ((QTextEdit*)(this))->setCurrentFont(font);
 }
 
 bool MdiChild::loadFile(QString filename)

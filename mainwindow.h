@@ -8,6 +8,7 @@
 #include <QMdiSubWindow>
 #include <QPrinter>
 #include <QProcess>
+#include <QSettings>
 
 namespace Ui {
 class MainWindow;
@@ -24,15 +25,18 @@ public:
     void SyntaxHighlight();
 
 private:
-    void open(QString fileName);
     QLineEdit *lineEdit_command;
     QLabel *LS1, *LS2, *LS3;
     QString filename, path;
     DialogFind *dialogFind;
+    QSettings settings;
+    void open(QString fileName);
+    void readSettings();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *e);
     void dropEvent(QDropEvent *e);
+    void closeEvent(QCloseEvent *event);
 
 private slots:
     void on_action_new_triggered();

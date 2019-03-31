@@ -2,6 +2,7 @@
 #define MDICHILD_H
 
 #include <QPlainTextEdit>
+#include <QSettings>
 
 class LineNumberArea;
 
@@ -17,6 +18,7 @@ public:
     int lineNumberAreaWidth();
 
 private:
+    QSettings settings;
     LineNumberArea *lineNumberArea;
 
 protected:

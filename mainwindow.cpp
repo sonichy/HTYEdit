@@ -23,7 +23,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    settings(QCoreApplication::organizationName(), QCoreApplication::applicationName())
 {
     ui->setupUi(this);
     move((QApplication::desktop()->width() - width())/2, (QApplication::desktop()->height() - height())/2);
@@ -50,6 +51,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->addWidget(LS3);
     connect(ui->action_quit, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(subWindowActivate(QMdiSubWindow*)));
+    connect(ui->action_window_output, &QAction::toggled, this, [=](bool b){
+        if (b) {
+            ui->textBrowser->show();
+        } else {
+            ui->textBrowser->hide();
+        }
+    });
 
     dialogFind = new DialogFind(this);
     connect(dialogFind->ui->pushButton_find_next, SIGNAL(clicked(bool)), this, SLOT(find()));
@@ -59,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QStringList args = QApplication::arguments();
     qDebug() << args;
     QDateTime currentDateTime = QDateTime::currentDateTime();
-    QString log = currentDateTime.toString("yyyy/MM/dd HH:mm:ss") + ": " + args.at(0);
+    QString log = currentDateTime.toString("yyyy/MM/dd HH:mm:ss") + " " + args.at(0);
     if(args.length()>1){
         for(int i=1; i<args.length(); i++){
             log += " " + args.at(i);
@@ -80,6 +88,7 @@ MainWindow::MainWindow(QWidget *parent) :
         file.close();
     }
 
+    readSettings();
 }
 
 MainWindow::~MainWindow()
@@ -94,7 +103,7 @@ void MainWindow::on_action_aboutQt_triggered()
 
 void MainWindow::on_action_about_triggered()
 {
-    QMessageBox aboutMB(QMessageBox::NoIcon, "关于", "海天鹰编辑器 1.8\n\n一款基于 Qt 的文本编辑程序。\n作者：黄颖\nE-mail: sonichy@163.com\n主页：https://github.com/sonichy\n参考文献：\n多文档编辑器：http://www.qter.org/?page_id=161\nQMdiArea基本用法：http://www.mamicode.com/info-detail-1607476.html\n保存文本：http://blog.csdn.net/neicole/article/details/7330234\n语法高亮：http://www.cnblogs.com/lenxvp/p/5475931.html\n拖放打开文件：http://blog.csdn.net/rl529014/article/details/53057577\n行号：http://doc.qt.io/qt-5/qtwidgets-widgets-codeeditor-example.html");
+    QMessageBox aboutMB(QMessageBox::NoIcon, "关于", "海天鹰编辑器 1.9\n\n一款基于 Qt 的文本编辑程序。\n作者：黄颖\nE-mail: sonichy@163.com\n主页：https://github.com/sonichy\n参考文献：\n多文档编辑器：http://www.qter.org/?page_id=161\nQMdiArea基本用法：http://www.mamicode.com/info-detail-1607476.html\n保存文本：http://blog.csdn.net/neicole/article/details/7330234\n语法高亮：http://www.cnblogs.com/lenxvp/p/5475931.html\n拖放打开文件：http://blog.csdn.net/rl529014/article/details/53057577\n行号：http://doc.qt.io/qt-5/qtwidgets-widgets-codeeditor-example.html");
     aboutMB.setIconPixmap(QPixmap(":/icon.png"));
     aboutMB.setWindowIcon(QIcon(":/icon.png"));
     aboutMB.exec();
@@ -102,7 +111,7 @@ void MainWindow::on_action_about_triggered()
 
 void MainWindow::on_action_changelog_triggered()
 {
-    QString s = "1.8\n2018-11\n使用系统主题图标代替Qt内置图标。\n\n1.7\n2018-10\n支持拖放打开多个文件。\n增加打开文件log。\n打开方式文件路径兼容深度文管和其他文管。\n\n1.6\n2018-09\n标签右键增加只读菜单。\n优化括号补全。\n\n1.5\n2018-08\n增加行号\n增加java文件编译命令\n\n1.4\n2018-07\n设置QTextEdit的Tab跳过的空格数为4个空格\n\n1.3\n2018-06\n增加调试窗口。\n\n1.2\n2018-05\n增加c、cpp的OpenGL编译命令。\n2018-05\n解决右键打开方式无法打开文件问题。\n增加运行python。\n2018-04\n增加打印功能。\n\n1.1\n2017-10\n增加获取文本编码(使用 file --mime-encoding 命令返回)，但是没有解决乱码问题。\n排版实验。\n用文本框代替消息框显示更新日志。\n2017-07\n增加拖放打开文件。\n2017-06\n增加语法高亮。\n提取打开文件的相对路径，使Markdown预览能够载入相对路径图片。\n\n1.0\n2017-03\n支持命令行打开文件和打开方式打开文件。\n查找窗口填入选中文本。\n2017-02\n根据文件扩展名选择语法高亮方案。\nJS语法高亮实验成功！\nHTML语法高亮实验成功！\n增加设置字体。\n设置状态栏左右边距。\n2017-01\n实现全部替换。\n设置循环查找。\n增加查找替换窗体和功能。\n根据文件扩展名决定是否使用默认程序打开，如htm。\n优化保存、另存为和文本修动标题标记逻辑。\n增加撤销，重做，子窗标题文本改动标识。\n增加子窗体类，实现Ctrl+滚轮缩放和保存打开文件的路径。\n增加使用默认程序预览文件。\n把上一个打开或保存的路径设置为打开或保存对话框的默认路径和文件名。\n增加放大、缩小。\n增加文本光标变化信号，光标所在行列显示在状态栏第二栏。\n状态栏分为2栏\n修复没有子窗口时预览引起的崩溃。\n增加预览功能。\n保存成功。\n修改字体颜色，背景色成功。\n新建文件成功，打开文件载入成功。\n选用QMdiArea作为主控件，增加窗口标签、平铺、层叠菜单。 \n制作主要菜单。";
+    QString s = "1.9\n2019-04\n保存窗口大小，保存字体设置，设置是否显示输出窗口。\n\n1.8\n2018-11\n使用系统主题图标代替Qt内置图标。\n\n1.7\n2018-10\n支持拖放打开多个文件。\n增加打开文件log。\n打开方式文件路径兼容深度文管和其他文管。\n\n1.6\n2018-09\n标签右键增加只读菜单。\n优化括号补全。\n\n1.5\n2018-08\n增加行号\n增加java文件编译命令\n\n1.4\n2018-07\n设置QTextEdit的Tab跳过的空格数为4个空格\n\n1.3\n2018-06\n增加调试窗口。\n\n1.2\n2018-05\n增加c、cpp的OpenGL编译命令。\n2018-05\n解决右键打开方式无法打开文件问题。\n增加运行python。\n2018-04\n增加打印功能。\n\n1.1\n2017-10\n增加获取文本编码(使用 file --mime-encoding 命令返回)，但是没有解决乱码问题。\n排版实验。\n用文本框代替消息框显示更新日志。\n2017-07\n增加拖放打开文件。\n2017-06\n增加语法高亮。\n提取打开文件的相对路径，使Markdown预览能够载入相对路径图片。\n\n1.0\n2017-03\n支持命令行打开文件和打开方式打开文件。\n查找窗口填入选中文本。\n2017-02\n根据文件扩展名选择语法高亮方案。\nJS语法高亮实验成功！\nHTML语法高亮实验成功！\n增加设置字体。\n设置状态栏左右边距。\n2017-01\n实现全部替换。\n设置循环查找。\n增加查找替换窗体和功能。\n根据文件扩展名决定是否使用默认程序打开，如htm。\n优化保存、另存为和文本修动标题标记逻辑。\n增加撤销，重做，子窗标题文本改动标识。\n增加子窗体类，实现Ctrl+滚轮缩放和保存打开文件的路径。\n增加使用默认程序预览文件。\n把上一个打开或保存的路径设置为打开或保存对话框的默认路径和文件名。\n增加放大、缩小。\n增加文本光标变化信号，光标所在行列显示在状态栏第二栏。\n状态栏分为2栏\n修复没有子窗口时预览引起的崩溃。\n增加预览功能。\n保存成功。\n修改字体颜色，背景色成功。\n新建文件成功，打开文件载入成功。\n选用QMdiArea作为主控件，增加窗口标签、平铺、层叠菜单。 \n制作主要菜单。";
     QDialog *dialog = new QDialog;
     dialog->setWindowTitle("更新历史");
     dialog->setFixedSize(400, 300);
@@ -431,14 +440,25 @@ void MainWindow::on_action_indent_triggered()
 
 void MainWindow::on_action_font_triggered()
 {
-    if(ui->mdiArea->currentSubWindow() != 0){
+    //if(ui->mdiArea->currentSubWindow() != 0){
         bool ok;
-        qDebug() << ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->currentFont();
-        QFont font = QFontDialog::getFont(&ok, ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->currentFont(), this, "选择字体");
+        //qDebug() << ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->currentFont();
+        QString sfont = settings.value("Font").toString();
+        QFont font;
+        if (sfont == "") {
+            font = qApp->font();
+        } else {
+            QStringList SLFont = sfont.split(",");
+            font = QFont(SLFont.at(0),SLFont.at(1).toInt(),SLFont.at(2).toInt(),SLFont.at(3).toInt());
+        }
+        //QFont font = QFontDialog::getFont(&ok, ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->currentFont(), this, "选择字体");
+        font = QFontDialog::getFont(&ok, font, this, "选择字体");
         if(ok){
             ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->setCurrentFont(font);
+            QString sfont = font.family() + "," + QString::number(font.pointSize()) + "," + font.weight() + "," + font.italic();
+            settings.setValue("Font", sfont);
         }
-    }
+    //}
 }
 
 //自己写的高亮效率低，打开文件会卡死，弃用，引入QSyntaxHighlighter类
@@ -576,9 +596,10 @@ void MainWindow::printDocument(QPrinter *printer)
 void MainWindow::updateCommand()
 {
     if (ui->mdiArea->currentSubWindow() != 0) {
+        bool isShowOutput = ui->action_window_output->isChecked();
+        if (isShowOutput) ui->textBrowser->show();
         QString suffix = QFileInfo(((MdiChild*)(ui->mdiArea->currentSubWindow()->widget()))->path).suffix().toLower();
         if (suffix == "c" || suffix == "cpp") {
-            ui->textBrowser->show();
             QString s = ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->toPlainText();
             QStringList SL = s.split("\n");
             QStringList SLI = SL.filter(QRegExp("^#include"));;
@@ -594,13 +615,10 @@ void MainWindow::updateCommand()
             }
             lineEdit_command->setText(command);
         } else if (suffix == "py") {
-            ui->textBrowser->show();
             lineEdit_command->setText("python ./%1");
         } else if (suffix == "java") {
-            ui->textBrowser->show();
             lineEdit_command->setText("javac %1");
         } else if (suffix == "sh") {
-            ui->textBrowser->show();
             lineEdit_command->setText("./%1");
         } else {
             lineEdit_command->setText("");
@@ -623,4 +641,17 @@ void MainWindow::printError()
     QString s = QString(process->readAllStandardError());
     qDebug() << s;
     ui->textBrowser->append(s);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("windowState", saveState());
+    QMainWindow::closeEvent(event);
+}
+
+void MainWindow::readSettings()
+{
+    qDebug() << "geometry" << restoreGeometry(settings.value("geometry").toByteArray());
+    qDebug() << "windowState" << restoreState(settings.value("windowState").toByteArray());
 }
