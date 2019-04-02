@@ -10,6 +10,7 @@
 #include <QTextCodec>
 #include <QProcess>
 #include <QPainter>
+#include <QTextDocumentFragment>
 
 MdiChild::MdiChild(QWidget *parent) :
     QPlainTextEdit(parent),
@@ -134,9 +135,19 @@ void MdiChild::keyPressEvent(QKeyEvent *e)
     } else if (e->key() == Qt::Key_BracketLeft) {
         insertPlainText("[]");
         moveCursor(QTextCursor::Left, QTextCursor::MoveAnchor);
-    } else if ((e->modifiers() & Qt::ControlModifier) && e->key() == Qt::Key_Slash) {
-        qDebug() << "Ctrl+/";
-
+    } else if ((e->modifiers() & Qt::ControlModifier) && e->key() == Qt::Key_Slash) {//快捷键注释
+        QString s = textCursor().selection().toPlainText();
+        QStringList SL = s.split("\n");
+        for(int i=0; i<SL.length(); i++){
+            if(SL.at(i).trimmed().startsWith("//")){
+                s = SL.at(i);
+                s.replace("//","");
+            }else{
+                s = "//" + SL.at(i);
+            }
+            if(i<SL.length()-1) s.append("\n");
+            textCursor().insertText(s);
+        }
     } else {
         return QPlainTextEdit::keyPressEvent(e);
     }
