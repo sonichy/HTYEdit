@@ -135,7 +135,7 @@ void MdiChild::keyPressEvent(QKeyEvent *e)
     } else if (e->key() == Qt::Key_BracketLeft) {
         insertPlainText("[]");
         moveCursor(QTextCursor::Left, QTextCursor::MoveAnchor);
-    } else if ((e->modifiers() & Qt::ControlModifier) && e->key() == Qt::Key_Slash) {//快捷键注释
+    } else if ((e->modifiers() & Qt::ControlModifier) && e->key() == Qt::Key_Slash) {// Ctrl+/ 注释选中行
         QString s = textCursor().selection().toPlainText();
         QStringList SL = s.split("\n");
         for(int i=0; i<SL.length(); i++){
@@ -147,6 +147,16 @@ void MdiChild::keyPressEvent(QKeyEvent *e)
             }
             if(i<SL.length()-1) s.append("\n");
             textCursor().insertText(s);
+        }
+    } else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {//auto indent
+        QString s = textCursor().block().text();
+        QString st = s.trimmed();
+        QString ws = s.mid(0, s.indexOf(st));
+        qDebug() << ws;
+        if(st.endsWith("{")){
+            textCursor().insertText("\n\t" + ws);
+        }else{
+            textCursor().insertText("\n" + ws);
         }
     } else {
         return QPlainTextEdit::keyPressEvent(e);
