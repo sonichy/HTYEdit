@@ -70,6 +70,7 @@ private slots:
     void updateCommand();
     void printOutput();
     void printError();
+    void anchorClick(QUrl url);
 };
 
 #endif // MAINWINDOW_H

@@ -20,6 +20,7 @@
 #include <QPainter>
 #include <QMdiSubWindow>
 #include <QDateTime>
+#include <QTextBlock>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -58,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->textBrowser->hide();
         }
     });
+    connect(ui->textBrowser, SIGNAL(anchorClicked(QUrl)), this, SLOT(anchorClick(QUrl)));
 
     dialogFind = new DialogFind(this);
     connect(dialogFind->ui->pushButton_find_next, SIGNAL(clicked(bool)), this, SLOT(find()));
@@ -252,7 +254,6 @@ void MainWindow::on_action_run_triggered()
         QString filename1 = QFileInfo(path).fileName();
         QString suffix = QFileInfo(path).suffix().toLower();
         QString filepath = QFileInfo(path).absolutePath();
-
         if (suffix == "md") {
             QString s = ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->toPlainText();
             s.replace("#","<h1>");
@@ -287,23 +288,34 @@ void MainWindow::on_action_run_triggered()
             if (((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->document()->isModified()) on_action_save_triggered();
             QString command = lineEdit_command->text().arg(filename1).arg(QFileInfo(path).baseName());
             LS1->setText(command);
-            ui->textBrowser->setText("");
-            ui->textBrowser->append(command);
+            ui->textBrowser->setHtml("");
+            ui->textBrowser->insertHtml(command+"<br>");
             QProcess *process_compile = new QProcess;
             process_compile->setWorkingDirectory(filepath);
             connect(process_compile, SIGNAL(readyReadStandardOutput()), this, SLOT(printOutput()));
-            connect(process_compile, SIGNAL(readyReadStandardError()), this, SLOT(printError()));
+            //connect(process_compile, SIGNAL(readyReadStandardError()), this, SLOT(printError()));
+            static bool noError = true;
+            connect(process_compile, &QProcess::readyReadStandardError,[=](){
+                QString s = QString(process_compile->readAllStandardError());
+                qDebug() << s;
+                //加链接
+                s.replace("boxkey.cpp:27:24: error:","<a href='boxkey.cpp:27:24: error:'>boxkey.cpp:27:24: error:</a>");
+                s.replace("\n","<br>");
+                qDebug() << s;
+                ui->textBrowser->insertHtml(s);
+                noError = false;
+            });
             connect(process_compile, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [=](int exitCode, QProcess::ExitStatus exitStatus){
-                Q_UNUSED(exitCode);
-                Q_UNUSED(exitStatus);
                 qDebug() << exitCode << exitStatus;
-                QProcess *process_run = new QProcess;
-                process_run->setWorkingDirectory(filepath);
-                connect(process_run, SIGNAL(readyReadStandardOutput()), this, SLOT(printOutput()));
-                connect(process_run, SIGNAL(readyReadStandardError()), this, SLOT(printError()));
-                QString command2 = "./" + QFileInfo(path).baseName();
-                ui->textBrowser->append(command2);
-                process_run->start(command2);
+                if(noError){
+                    QProcess *process_run = new QProcess;
+                    process_run->setWorkingDirectory(filepath);
+                    connect(process_run, SIGNAL(readyReadStandardOutput()), this, SLOT(printOutput()));
+                    connect(process_run, SIGNAL(readyReadStandardError()), this, SLOT(printError()));
+                    QString command2 = "./" + QFileInfo(path).baseName();
+                    ui->textBrowser->insertHtml(command2+"<br>");
+                    process_run->start(command2);
+                }
             });
             qDebug() << command;
             process_compile->start(command);
@@ -392,7 +404,7 @@ void MainWindow::find()
             MB.setButtonText(QMessageBox::No,QString("否"));
             if(MB.exec() == QMessageBox::Yes){
                 QTextCursor cursor = ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->textCursor();
-                cursor.setPosition(0,QTextCursor::MoveAnchor);
+                cursor.setPosition(0, QTextCursor::MoveAnchor);
                 ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->setTextCursor(cursor);
                 find();
             }
@@ -416,7 +428,7 @@ void MainWindow::replaceAll()
     QString sfind = dialogFind->ui->lineEdit_find->text();
     QString sreplace = dialogFind->ui->lineEdit_replace->text();
     QTextCursor cursor = ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->textCursor();
-    cursor.setPosition(0,QTextCursor::MoveAnchor);
+    cursor.setPosition(0, QTextCursor::MoveAnchor);
     ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->setTextCursor(cursor);
     while(((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->find(sfind)){
         cursor = ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->textCursor();
@@ -632,7 +644,7 @@ void MainWindow::printOutput()
     QProcess *process = qobject_cast<QProcess*>(sender());
     QString s = QString(process->readAllStandardOutput());
     qDebug() << s;
-    ui->textBrowser->append(s);
+    ui->textBrowser->insertHtml(s+"<br>");
 }
 
 void MainWindow::printError()
@@ -640,7 +652,8 @@ void MainWindow::printError()
     QProcess *process = qobject_cast<QProcess*>(sender());
     QString s = QString(process->readAllStandardError());
     qDebug() << s;
-    ui->textBrowser->append(s);
+    s.replace("error:","<a href=''>error:</a>");
+    ui->textBrowser->insertHtml(s);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -652,6 +665,27 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::readSettings()
 {
-    qDebug() << "geometry" << restoreGeometry(settings.value("geometry").toByteArray());
-    qDebug() << "windowState" << restoreState(settings.value("windowState").toByteArray());
+    restoreGeometry(settings.value("geometry").toByteArray());
+    restoreState(settings.value("windowState").toByteArray());
+}
+
+void MainWindow::anchorClick(QUrl url)
+{
+    QString s = url.toString();
+    QStringList SL = s.split(":");
+    //QString filename = SL.at(0);
+    QString srow = SL.at(1);
+    QString scol = SL.at(2);
+    int row = srow.toInt();
+    int col = scol.toInt();
+    qDebug() << s << row << col;
+    QTextEdit *textEdit = (QTextEdit*)(ui->mdiArea->currentSubWindow()->widget());
+    QTextBlock block = textEdit->document()->findBlockByLineNumber(row - 1);
+    if (block.isValid()) {
+        textEdit->setFocus();
+        QTextCursor cursor = textEdit->textCursor();
+        cursor.setPosition(block.position() + col - 1, QTextCursor::MoveAnchor);
+        textEdit->setTextCursor(cursor);
+        //textEdit->ensureCursorVisible();
+    }
 }

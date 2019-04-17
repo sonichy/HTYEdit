@@ -59,7 +59,11 @@
         <enum>QTabWidget::Triangular</enum>
        </property>
       </widget>
-      <widget class="QTextBrowser" name="textBrowser"/>
+      <widget class="QTextBrowser" name="textBrowser">
+       <property name="openLinks">
+        <bool>false</bool>
+       </property>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -436,6 +440,9 @@
    </property>
    <property name="text">
     <string>输出窗口</string>
+   </property>
+   <property name="shortcut">
+    <string>F12</string>
    </property>
   </action>
  </widget>
