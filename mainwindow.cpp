@@ -294,8 +294,8 @@ void MainWindow::on_action_run_triggered()
             process_compile->setWorkingDirectory(filepath);
             connect(process_compile, SIGNAL(readyReadStandardOutput()), this, SLOT(printOutput()));
             //connect(process_compile, SIGNAL(readyReadStandardError()), this, SLOT(printError()));
-            static bool noError = true;
-            connect(process_compile, &QProcess::readyReadStandardError,[=](){
+            bool noError = true;
+            connect(process_compile, &QProcess::readyReadStandardError,[=,&noError](){
                 QString s = QString(process_compile->readAllStandardError());
                 qDebug() << s;
                 //加链接
@@ -306,7 +306,7 @@ void MainWindow::on_action_run_triggered()
                 noError = false;
             });
             connect(process_compile, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [=](int exitCode, QProcess::ExitStatus exitStatus){
-                qDebug() << exitCode << exitStatus;
+                qDebug() << exitCode << exitStatus << noError;
                 if(noError){
                     QProcess *process_run = new QProcess;
                     process_run->setWorkingDirectory(filepath);
@@ -644,6 +644,7 @@ void MainWindow::printOutput()
     QProcess *process = qobject_cast<QProcess*>(sender());
     QString s = QString(process->readAllStandardOutput());
     qDebug() << s;
+    s.replace("\n", "<br>");
     ui->textBrowser->insertHtml(s+"<br>");
 }
 
@@ -652,6 +653,7 @@ void MainWindow::printError()
     QProcess *process = qobject_cast<QProcess*>(sender());
     QString s = QString(process->readAllStandardError());
     qDebug() << s;
+    s.replace("\n", "<br>");
     s.replace("error:","<a href=''>error:</a>");
     ui->textBrowser->insertHtml(s);
 }
