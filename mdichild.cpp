@@ -149,14 +149,14 @@ void MdiChild::keyPressEvent(QKeyEvent *e)
             textCursor().insertText(s);
         }
     } else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {//auto indent
-        QString s = textCursor().block().text();
-        QString st = s.trimmed();
-        QString ws = s.mid(0, s.indexOf(st));
+        QString s = textCursor().block().text();    //当前行字符串
+        QString st = s.trimmed();   //去首尾空格后的字符串
+        QString ws = s.mid(0, s.indexOf(st));   //字符串前面的空白
         qDebug() << ws;
         if(st.endsWith("{")){
-            textCursor().insertText("\n\t" + ws);
+            textCursor().insertText("\n\t" + ws);   //插入换行 + tab + 行首空白字符(缩进)
         }else{
-            textCursor().insertText("\n" + ws);
+            textCursor().insertText("\n" + ws);     //插入换行 + 行首空白字符(不缩进)
         }
     } else {
         return QPlainTextEdit::keyPressEvent(e);
