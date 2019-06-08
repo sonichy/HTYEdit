@@ -17,8 +17,8 @@
    <string>海天鹰编辑器</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/icon.png</normaloff>:/icon.png</iconset>
+   <iconset resource="res.qrc">
+    <normaloff>:/HTYEdit.png</normaloff>:/HTYEdit.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -486,6 +486,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

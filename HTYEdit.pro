@@ -23,4 +23,4 @@ FORMS    += mainwindow.ui \
     dialogfind.ui
 
 RESOURCES += \
-    qtrf.qrc
+    res.qrc

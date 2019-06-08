@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>HTYEdit.png</file>
+    </qresource>
+</RCC>

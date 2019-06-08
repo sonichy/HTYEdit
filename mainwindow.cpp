@@ -106,8 +106,8 @@ void MainWindow::on_action_aboutQt_triggered()
 void MainWindow::on_action_about_triggered()
 {
     QMessageBox aboutMB(QMessageBox::NoIcon, "关于", "海天鹰编辑器 1.10\n\n一款基于 Qt 的文本编辑程序。\n作者：黄颖\nE-mail: sonichy@163.com\n主页：https://github.com/sonichy\n参考文献：\n多文档编辑器：http://www.qter.org/?page_id=161\nQMdiArea基本用法：http://www.mamicode.com/info-detail-1607476.html\n保存文本：http://blog.csdn.net/neicole/article/details/7330234\n语法高亮：http://www.cnblogs.com/lenxvp/p/5475931.html\n拖放打开文件：http://blog.csdn.net/rl529014/article/details/53057577\n行号：http://doc.qt.io/qt-5/qtwidgets-widgets-codeeditor-example.html");
-    aboutMB.setIconPixmap(QPixmap(":/icon.png"));
-    aboutMB.setWindowIcon(QIcon(":/icon.png"));
+    aboutMB.setIconPixmap(QPixmap(":/HTYEdit.png"));
+    aboutMB.setWindowIcon(QIcon(":/HTYEdit.png"));
     aboutMB.exec();
 }
 
