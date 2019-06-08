@@ -16,6 +16,9 @@ public:
     QString path, scodec;
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
+    void insertTD();
+    void insertTR();
+    void insertP();
 
 private:
     QSettings settings;

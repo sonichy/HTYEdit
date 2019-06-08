@@ -36,8 +36,6 @@ MdiChild::MdiChild(QWidget *parent) :
     connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
 
-
-
 }
 
 bool MdiChild::loadFile(QString filename)
@@ -106,7 +104,7 @@ void MdiChild::contentsChange()
 void MdiChild::wheelEvent(QWheelEvent *e)
 {
     if(QApplication::keyboardModifiers() == Qt::ControlModifier){
-        QTextCursor cursor = this->textCursor();
+        QTextCursor cursor = textCursor();
         selectAll();
         font = ((QTextEdit*)(this))->currentFont();
         qDebug() << ((QTextEdit*)(this))->fontPointSize();
@@ -228,4 +226,25 @@ void MdiChild::updateLineNumberAreaWidth(int /* newBlockCount */)
 void MdiChild::setReadOnlyA(bool b)
 {
     setReadOnly(b);
+}
+
+void MdiChild::insertTD()
+{
+    QString s = textCursor().selectedText();
+    s = "<td>" + s + "</td>";
+    textCursor().insertText(s);
+}
+
+void MdiChild::insertTR()
+{
+    QString s = textCursor().selectedText();
+    s = "<tr>" + s + "</tr>";
+    textCursor().insertText(s);
+}
+
+void MdiChild::insertP()
+{
+    QString s = textCursor().selectedText();
+    s = "<p>" + s + "</p>";
+    textCursor().insertText(s);
 }

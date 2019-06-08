@@ -17,7 +17,7 @@
    <string>海天鹰编辑器</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="qtrf.qrc">
+   <iconset>
     <normaloff>:/icon.png</normaloff>:/icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -146,6 +146,9 @@
    </attribute>
    <addaction name="action_font"/>
    <addaction name="action_run"/>
+   <addaction name="action_td"/>
+   <addaction name="action_tr"/>
+   <addaction name="action_p"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_new">
@@ -445,10 +448,44 @@
     <string>F12</string>
    </property>
   </action>
+  <action name="action_td">
+   <property name="text">
+    <string>&lt;td&gt;</string>
+   </property>
+   <property name="toolTip">
+    <string>Ctrl+Shift+D</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+D</string>
+   </property>
+  </action>
+  <action name="action_tr">
+   <property name="text">
+    <string>&lt;tr&gt;</string>
+   </property>
+   <property name="toolTip">
+    <string>Ctrl+Shift+R</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+R</string>
+   </property>
+  </action>
+  <action name="action_p">
+   <property name="text">
+    <string>&lt;p&gt;</string>
+   </property>
+   <property name="toolTip">
+    <string>Ctrl+Alt+P</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+P</string>
+   </property>
+   <property name="shortcutVisibleInContextMenu">
+    <bool>false</bool>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="qtrf.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
