@@ -228,23 +228,77 @@ void MdiChild::setReadOnlyA(bool b)
     setReadOnly(b);
 }
 
-void MdiChild::insertTD()
+void MdiChild::insertH1()
 {
-    QString s = textCursor().selectedText();
-    s = "<td>" + s + "</td>";
+    QString s = textCursor().selection().toPlainText(); //可以显示换行符
+    QStringList SL = s.split("\n");
+    s = "";
+    for(int i=0; i<SL.length(); i++){
+        if(SL.at(i) != ""){
+            s += "<h1>" + SL.at(i) + "</h1>";
+            if(i < SL.length()-1)
+                s += "\n";
+        }
+    }
+    textCursor().insertText(s);
+}
+
+void MdiChild::insertH(QString h)
+{
+    QString s = textCursor().selection().toPlainText(); //可以显示换行符
+    QStringList SL = s.split("\n");
+    s = "";
+    for(int i=0; i<SL.length(); i++){
+        if(SL.at(i) != ""){
+            s += "<" + h +">" + SL.at(i) + "</" + h + ">";
+            if(i < SL.length()-1)
+                s += "\n";
+        }
+    }
     textCursor().insertText(s);
 }
 
 void MdiChild::insertTR()
 {
-    QString s = textCursor().selectedText();
-    s = "<tr>" + s + "</tr>";
+    QString s = textCursor().selection().toPlainText();
+    QStringList SL = s.split("\n");
+    s = "";
+    for(int i=0; i<SL.length(); i++){
+        if(SL.at(i) != ""){
+            s += "<tr>" + SL.at(i) + "</tr>";
+            if(i < SL.length()-1)
+                s += "\n";
+        }
+    }
+    textCursor().insertText(s);
+}
+
+void MdiChild::insertTD()
+{
+    QString s = textCursor().selection().toPlainText();
+    QStringList SL = s.split("\n");
+    s = "";
+    for(int i=0; i<SL.length(); i++){
+        if(SL.at(i) != ""){
+            s += "<td>" + SL.at(i) + "</td>";
+            if(i < SL.length()-1)
+                s += "\n";
+        }
+    }
     textCursor().insertText(s);
 }
 
 void MdiChild::insertP()
 {
-    QString s = textCursor().selectedText();
-    s = "<p>" + s + "</p>";
+    QString s = textCursor().selection().toPlainText();
+    QStringList SL = s.split("\n");
+    s = "";
+    for(int i=0; i<SL.length(); i++){
+        if(SL.at(i) != ""){
+            s += "<p>" + SL.at(i) + "</p>";
+            if(i < SL.length()-1)
+                s += "\n";
+        }
+    }
     textCursor().insertText(s);
 }
