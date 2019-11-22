@@ -74,7 +74,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -471,6 +471,9 @@
    </property>
   </action>
   <action name="action_p">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>p</string>
    </property>
@@ -479,14 +482,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+P</string>
-   </property>
-   <property name="shortcutVisibleInContextMenu">
-    <bool>false</bool>
-   </property>
-  </action>
-  <action name="action_h1">
-   <property name="text">
-    <string>h1</string>
    </property>
   </action>
  </widget>

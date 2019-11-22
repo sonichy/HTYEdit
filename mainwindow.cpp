@@ -220,8 +220,7 @@ void MainWindow::open(QString fileName)
     if (child->loadFile(fileName)) {
         path = fileName;
         LS1->setText("打开 " + fileName);
-        int count =  ((QTextEdit*)(window->widget()))->toPlainText().count();
-        LS2->setText(QString("行,列：1,0  字符数: %1").arg(count));
+        cursorPositionChange();
         //SyntaxHighlight();
         updateCommand();
     }
