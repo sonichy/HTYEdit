@@ -136,14 +136,14 @@ void MdiChild::keyPressEvent(QKeyEvent *e)
     } else if ((e->modifiers() & Qt::ControlModifier) && e->key() == Qt::Key_Slash) {// Ctrl+/ 注释选中行
         QString s = textCursor().selection().toPlainText();
         QStringList SL = s.split("\n");
-        for(int i=0; i<SL.length(); i++){
-            if(SL.at(i).trimmed().startsWith("//")){
+        for (int i=0; i<SL.length(); i++) {
+            if (SL.at(i).trimmed().startsWith("//")) {
                 s = SL.at(i);
                 s.replace("//","");
-            }else{
+            } else {
                 s = "//" + SL.at(i);
             }
-            if(i<SL.length()-1) s.append("\n");
+            if (i<SL.length()-1) s.append("\n");
             textCursor().insertText(s);
         }
     } else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {//auto indent
@@ -156,6 +156,16 @@ void MdiChild::keyPressEvent(QKeyEvent *e)
         }else{
             textCursor().insertText("\n" + ws);     //插入换行 + 行首空白字符(不缩进)
         }
+    } else if (e->key() == Qt::Key_Tab) {   //选中每行前插入一个tab
+        QString s = textCursor().selection().toPlainText();
+        QStringList SL = s.split("\n");
+        s = "";
+        for (int i=0; i<SL.length(); i++) {
+            QString st = "\t" + SL.at(i);
+            if (i<SL.length()-1) st.append("\n");
+            s += st;
+        }
+        textCursor().insertText(s);
     } else {
         return QPlainTextEdit::keyPressEvent(e);
     }
@@ -228,30 +238,15 @@ void MdiChild::setReadOnlyA(bool b)
     setReadOnly(b);
 }
 
-void MdiChild::insertH1()
-{
-    QString s = textCursor().selection().toPlainText(); //可以显示换行符
-    QStringList SL = s.split("\n");
-    s = "";
-    for(int i=0; i<SL.length(); i++){
-        if(SL.at(i) != ""){
-            s += "<h1>" + SL.at(i) + "</h1>";
-            if(i < SL.length()-1)
-                s += "\n";
-        }
-    }
-    textCursor().insertText(s);
-}
-
 void MdiChild::insertH(QString h)
 {
     QString s = textCursor().selection().toPlainText(); //可以显示换行符
     QStringList SL = s.split("\n");
     s = "";
-    for(int i=0; i<SL.length(); i++){
-        if(SL.at(i) != ""){
+    for (int i=0; i<SL.length(); i++) {
+        if (SL.at(i) != "") {
             s += "<" + h +">" + SL.at(i) + "</" + h + ">";
-            if(i < SL.length()-1)
+            if (i < SL.length()-1)
                 s += "\n";
         }
     }
@@ -263,10 +258,10 @@ void MdiChild::insertTR()
     QString s = textCursor().selection().toPlainText();
     QStringList SL = s.split("\n");
     s = "";
-    for(int i=0; i<SL.length(); i++){
-        if(SL.at(i) != ""){
+    for (int i=0; i<SL.length(); i++) {
+        if (SL.at(i) != "") {
             s += "<tr>" + SL.at(i) + "</tr>";
-            if(i < SL.length()-1)
+            if (i < SL.length()-1)
                 s += "\n";
         }
     }
@@ -278,10 +273,10 @@ void MdiChild::insertTD()
     QString s = textCursor().selection().toPlainText();
     QStringList SL = s.split("\n");
     s = "";
-    for(int i=0; i<SL.length(); i++){
-        if(SL.at(i) != ""){
+    for (int i=0; i<SL.length(); i++) {
+        if (SL.at(i) != "") {
             s += "<td>" + SL.at(i) + "</td>";
-            if(i < SL.length()-1)
+            if (i < SL.length()-1)
                 s += "\n";
         }
     }
@@ -293,10 +288,10 @@ void MdiChild::insertP()
     QString s = textCursor().selection().toPlainText();
     QStringList SL = s.split("\n");
     s = "";
-    for(int i=0; i<SL.length(); i++){
-        if(SL.at(i) != ""){
+    for (int i=0; i<SL.length(); i++) {
+        if (SL.at(i) != "") {
             s += "<p>" + SL.at(i) + "</p>";
-            if(i < SL.length()-1)
+            if (i < SL.length()-1)
                 s += "\n";
         }
     }

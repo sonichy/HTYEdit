@@ -22,6 +22,7 @@
 #include <QDateTime>
 #include <QTextBlock>
 #include <QComboBox>
+#include <QTextDocumentFragment>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -93,7 +94,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // 写log
     QFile file("log.txt");
-    if (file.open(QFile::WriteOnly|QIODevice::Append)) {
+    if (file.open(QFile::WriteOnly | QIODevice::Append)) {
         file.write(log.toUtf8());
         file.close();
     }
@@ -121,7 +122,7 @@ void MainWindow::on_action_about_triggered()
 
 void MainWindow::on_action_changelog_triggered()
 {
-    QString s = "1.10\n2019-08\n增加：字符数统计。\nHTML排版，增加选中文本分行插入td、tr、p、h1~h6的工具。\n\n1.9\n2019-04\n便签右键菜单增加打开文件路径。\n换行自动缩进。\n快捷键 Ctrl+/ 注释、取消注释选中行。\n保存窗口大小，保存字体设置，设置是否显示输出窗口。\n\n1.8\n2018-11\n使用系统主题图标代替Qt内置图标。\n\n1.7\n2018-10\n支持拖放打开多个文件。\n增加打开文件log。\n打开方式文件路径兼容深度文管和其他文管。\n\n1.6\n2018-09\n标签右键增加只读菜单。\n优化括号补全。\n\n1.5\n2018-08\n增加行号\n增加java文件编译命令\n\n1.4\n2018-07\n设置QTextEdit的Tab跳过的空格数为4个空格\n\n1.3\n2018-06\n增加调试窗口。\n\n1.2\n2018-05\n增加c、cpp的OpenGL编译命令。\n2018-05\n解决右键打开方式无法打开文件问题。\n增加运行python。\n2018-04\n增加打印功能。\n\n1.1\n2017-10\n增加获取文本编码(使用 file --mime-encoding 命令返回)，但是没有解决乱码问题。\n排版实验。\n用文本框代替消息框显示更新日志。\n2017-07\n增加拖放打开文件。\n2017-06\n增加语法高亮。\n提取打开文件的相对路径，使Markdown预览能够载入相对路径图片。\n\n1.0\n2017-03\n支持命令行打开文件和打开方式打开文件。\n查找窗口填入选中文本。\n2017-02\n根据文件扩展名选择语法高亮方案。\nJS语法高亮实验成功！\nHTML语法高亮实验成功！\n增加设置字体。\n设置状态栏左右边距。\n2017-01\n实现全部替换。\n设置循环查找。\n增加查找替换窗体和功能。\n根据文件扩展名决定是否使用默认程序打开，如htm。\n优化保存、另存为和文本修动标题标记逻辑。\n增加撤销，重做，子窗标题文本改动标识。\n增加子窗体类，实现Ctrl+滚轮缩放和保存打开文件的路径。\n增加使用默认程序预览文件。\n把上一个打开或保存的路径设置为打开或保存对话框的默认路径和文件名。\n增加放大、缩小。\n增加文本光标变化信号，光标所在行列显示在状态栏第二栏。\n状态栏分为2栏\n修复没有子窗口时预览引起的崩溃。\n增加预览功能。\n保存成功。\n修改字体颜色，背景色成功。\n新建文件成功，打开文件载入成功。\n选用QMdiArea作为主控件，增加窗口标签、平铺、层叠菜单。 \n制作主要菜单。";
+    QString s = "1.11\n2019-12\n优化排版，增加选中多行Tab缩进。\n\n1.10\n2019-08\n增加：字符数统计。\nHTML排版，增加选中文本分行插入td、tr、p、h1~h6的工具。\n\n1.9\n2019-04\n便签右键菜单增加打开文件路径。\n换行自动缩进。\n快捷键 Ctrl+/ 注释、取消注释选中行。\n保存窗口大小，保存字体设置，设置是否显示输出窗口。\n\n1.8\n2018-11\n使用系统主题图标代替Qt内置图标。\n\n1.7\n2018-10\n支持拖放打开多个文件。\n增加打开文件log。\n打开方式文件路径兼容深度文管和其他文管。\n\n1.6\n2018-09\n标签右键增加只读菜单。\n优化括号补全。\n\n1.5\n2018-08\n增加行号\n增加java文件编译命令\n\n1.4\n2018-07\n设置QTextEdit的Tab跳过的空格数为4个空格\n\n1.3\n2018-06\n增加调试窗口。\n\n1.2\n2018-05\n增加c、cpp的OpenGL编译命令。\n2018-05\n解决右键打开方式无法打开文件问题。\n增加运行python。\n2018-04\n增加打印功能。\n\n1.1\n2017-10\n增加获取文本编码(使用 file --mime-encoding 命令返回)，但是没有解决乱码问题。\n排版实验。\n用文本框代替消息框显示更新日志。\n2017-07\n增加拖放打开文件。\n2017-06\n增加语法高亮。\n提取打开文件的相对路径，使Markdown预览能够载入相对路径图片。\n\n1.0\n2017-03\n支持命令行打开文件和打开方式打开文件。\n查找窗口填入选中文本。\n2017-02\n根据文件扩展名选择语法高亮方案。\nJS语法高亮实验成功！\nHTML语法高亮实验成功！\n增加设置字体。\n设置状态栏左右边距。\n2017-01\n实现全部替换。\n设置循环查找。\n增加查找替换窗体和功能。\n根据文件扩展名决定是否使用默认程序打开，如htm。\n优化保存、另存为和文本修动标题标记逻辑。\n增加撤销，重做，子窗标题文本改动标识。\n增加子窗体类，实现Ctrl+滚轮缩放和保存打开文件的路径。\n增加使用默认程序预览文件。\n把上一个打开或保存的路径设置为打开或保存对话框的默认路径和文件名。\n增加放大、缩小。\n增加文本光标变化信号，光标所在行列显示在状态栏第二栏。\n状态栏分为2栏\n修复没有子窗口时预览引起的崩溃。\n增加预览功能。\n保存成功。\n修改字体颜色，背景色成功。\n新建文件成功，打开文件载入成功。\n选用QMdiArea作为主控件，增加窗口标签、平铺、层叠菜单。 \n制作主要菜单。";
     QDialog *dialog = new QDialog;
     dialog->setWindowTitle("更新历史");
     dialog->setFixedSize(400, 300);
@@ -171,14 +172,14 @@ void MainWindow::on_action_new_triggered()
     MdiChild *child = new MdiChild(this);
     QMdiSubWindow *window = ui->mdiArea->addSubWindow(child);
     QMenu *menu = window->systemMenu();
-    QAction *action_readonly = new QAction("只读",menu);
+    QAction *action_readonly = new QAction("只读", menu);
     action_readonly->setCheckable(true);
     menu->addAction(action_readonly);
     connect(action_readonly, SIGNAL(triggered(bool)), child, SLOT(setReadOnlyA(bool)));
 
     QPalette plt = palette();
-    plt.setColor(QPalette::Text,QColor(Qt::white));
-    plt.setBrush(QPalette::Base,QBrush(Qt::black));
+    plt.setColor(QPalette::Text, QColor(Qt::white));
+    plt.setBrush(QPalette::Base, QBrush(Qt::black));
     child->setPalette(plt);
     //child->selectAll();
     //child->setFontPointSize(13);
@@ -191,7 +192,7 @@ void MainWindow::on_action_new_triggered()
 
 void MainWindow::on_action_open_triggered()
 {
-    if (filename == "") {
+    if (path == "") {
         filename = QFileDialog::getOpenFileName(this, "打开文本", ".");
     } else {
         filename = QFileDialog::getOpenFileName(this, "打开文本", path);
@@ -203,6 +204,7 @@ void MainWindow::on_action_open_triggered()
 
 void MainWindow::open(QString fileName)
 {
+    path = fileName;
     MdiChild *child = new MdiChild(this);
     connect(child, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChange()));
     QMdiSubWindow *window = ui->mdiArea->addSubWindow(child);
@@ -467,23 +469,24 @@ void MainWindow::replaceAll()
 
 void MainWindow::on_action_indent_triggered()
 {
-    QString suffix = QFileInfo(path).suffix().toLower();
     QTextCursor cursor = ((QTextEdit*)(ui->mdiArea->currentSubWindow()->widget()))->textCursor();
-    QString s = cursor.selectedText();
-    if (suffix == "htm" || suffix == "html") {
-        //s = s.trimmed();
-        //s = s.replace(QRegExp("[\\s]+"), "");     // \\s表示空格,回车,换行等空白符, +号表示匹配一个或多个
-        s = s.replace(QRegExp("[\\s]+(<td>)"), "\\1");   //删除<td>前面空白
-        s = s.replace(QRegExp("[\\s]+(</td>)"), "\\1");   //删除</td>前面空白
-        s = s.replace(QRegExp("(</tr>)[\\s]+"), "\\1\n");   //删除</tr>后面空白后换行
-    } else if (suffix == "c" || suffix == "cpp"){
-        s = s.replace("{", "{\n");
-        s = s.replace("}", "}\n");
-        s = s.replace("[", "[\n");
-        s = s.replace("]", "]\n");
-        s = s.replace(",", ",\n");
+    QString s = cursor.selection().toPlainText();
+    QStringList SL = s.split("\n");
+    int ci = 0;
+    s = "";
+    for (int i=0; i<SL.length(); i++) {
+        QString st = SL.at(i).trimmed();
+        if (st.startsWith("}")) ci--;
+        st = "";
+        for (int j=0; j<ci; j++) {
+            st += "\t";
+        }
+        st += SL.at(i).trimmed();
+        if (st.endsWith("{")) ci++;
+        if (i<SL.length()-1) st.append("\n");
+        qDebug() << st;
+        s += st;
     }
-    //qDebug() << s;
     cursor.insertText(s);
 }
 
@@ -729,15 +732,6 @@ void MainWindow::anchorClick(QUrl url)
         cursor.setPosition(block.position() + col - 1, QTextCursor::MoveAnchor);
         textEdit->setTextCursor(cursor);
         //textEdit->ensureCursorVisible();
-    }
-}
-
-void MainWindow::on_action_h1_triggered()
-{
-    QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if(window != 0){
-        MdiChild *child = (MdiChild*)(window->widget());
-        child->insertH1();
     }
 }
 
