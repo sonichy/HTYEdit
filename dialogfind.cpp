@@ -6,6 +6,7 @@ DialogFind::DialogFind(QWidget *parent) :
     ui(new Ui::DialogFind)
 {
     ui->setupUi(this);
+    setFixedSize(400, 150);
 }
 
 DialogFind::~DialogFind()
