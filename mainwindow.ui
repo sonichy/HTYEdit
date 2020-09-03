@@ -74,7 +74,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>28</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -149,6 +149,8 @@
    <addaction name="action_tr"/>
    <addaction name="action_td"/>
    <addaction name="action_p"/>
+   <addaction name="action_div"/>
+   <addaction name="action_a"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_new">
@@ -482,6 +484,31 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+P</string>
+   </property>
+  </action>
+  <action name="action_div">
+   <property name="text">
+    <string>div</string>
+   </property>
+   <property name="toolTip">
+    <string>Ctrl+Alt+D</string>
+   </property>
+   <property name="font">
+    <font/>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+D</string>
+   </property>
+  </action>
+  <action name="action_a">
+   <property name="text">
+    <string>a</string>
+   </property>
+   <property name="toolTip">
+    <string>Ctrl+Shift+A</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+A</string>
    </property>
   </action>
  </widget>

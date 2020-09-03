@@ -286,11 +286,43 @@ void MdiChild::insertTD()
 void MdiChild::insertP()
 {
     QString s = textCursor().selection().toPlainText();
+    s = s.replace("<br>", "\n");
     QStringList SL = s.split("\n");
     s = "";
     for (int i=0; i<SL.length(); i++) {
         if (SL.at(i) != "") {
             s += "<p>" + SL.at(i) + "</p>";
+            if (i < SL.length()-1)
+                s += "\n";
+        }
+    }
+    textCursor().insertText(s);
+}
+
+void MdiChild::insertDIV(QString s1)
+{
+    QString s = textCursor().selection().toPlainText();
+    QStringList SL = s.split("\n");
+    s = "";
+    for (int i=0; i<SL.length(); i++) {
+        if (SL.at(i) != "") {
+            s += "<div" + s1 + ">" + SL.at(i) + "</div>";
+            if (i < SL.length()-1)
+                s += "\n";
+        }
+    }
+    textCursor().insertText(s);
+}
+
+void MdiChild::insertA(QString s1)
+{
+    //正则去链接("/<a[^>]*>(.*?)<\/a>/is", "$1")
+    QString s = textCursor().selection().toPlainText();
+    QStringList SL = s.split("\n");
+    s = "";
+    for (int i=0; i<SL.length(); i++) {
+        if (SL.at(i) != "") {
+            s += "<a " + s1 + ">" + SL.at(i) + "</a>";
             if (i < SL.length()-1)
                 s += "\n";
         }

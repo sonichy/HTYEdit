@@ -20,6 +20,8 @@ public:
     void insertTR();
     void insertTD();
     void insertP();
+    void insertDIV(QString s1);
+    void insertA(QString s1);
 
 private:
     QSettings settings;
