@@ -780,6 +780,15 @@ void MainWindow::on_action_a_triggered()
     }
 }
 
+void MainWindow::on_action_img_triggered()
+{
+    QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
+    if(window != 0){
+        MdiChild *child = (MdiChild*)(window->widget());
+        child->insertImg(lineEdit_command->text());
+    }
+}
+
 void MainWindow::comboBoxHChanged(QString s)
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();

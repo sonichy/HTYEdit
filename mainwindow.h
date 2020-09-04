@@ -66,6 +66,7 @@ private slots:
     void on_action_p_triggered();
     void on_action_div_triggered();
     void on_action_a_triggered();
+    void on_action_img_triggered();
     void find();
     void replace();
     void replaceAll();

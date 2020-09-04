@@ -20,8 +20,9 @@ public:
     void insertTR();
     void insertTD();
     void insertP();
-    void insertDIV(QString s1);
-    void insertA(QString s1);
+    void insertDIV(QString se);
+    void insertA(QString se);
+    void insertImg(QString se);
 
 private:
     QSettings settings;

@@ -151,6 +151,7 @@
    <addaction name="action_p"/>
    <addaction name="action_div"/>
    <addaction name="action_a"/>
+   <addaction name="action_img"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_new">
@@ -509,6 +510,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+A</string>
+   </property>
+  </action>
+  <action name="action_img">
+   <property name="text">
+    <string>img</string>
+   </property>
+   <property name="toolTip">
+    <string>Ctrl+Shift+I</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+I</string>
    </property>
   </action>
  </widget>

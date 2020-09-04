@@ -80,8 +80,7 @@ bool MdiChild::loadFile(QString filename)
 bool MdiChild::save()
 {
     QFile file(path);
-    if(file.open(QFile::WriteOnly))
-    {
+    if (file.open(QFile::WriteOnly)) {
         QTextStream ts(&file);
         QString s = toPlainText();
         ts << s;
@@ -90,7 +89,7 @@ bool MdiChild::save()
         setWindowTitle(QFileInfo(path).fileName() + "[*]");
         setWindowModified(false);
         return true;
-    }else{
+    } else {
         QMessageBox::warning(this,"错误", QString(" %1:\n%2").arg(path).arg(file.errorString()));
         return false;
     }
@@ -299,14 +298,14 @@ void MdiChild::insertP()
     textCursor().insertText(s);
 }
 
-void MdiChild::insertDIV(QString s1)
+void MdiChild::insertDIV(QString se)
 {
     QString s = textCursor().selection().toPlainText();
     QStringList SL = s.split("\n");
     s = "";
     for (int i=0; i<SL.length(); i++) {
         if (SL.at(i) != "") {
-            s += "<div" + s1 + ">" + SL.at(i) + "</div>";
+            s += "<div" + se + ">" + SL.at(i) + "</div>";
             if (i < SL.length()-1)
                 s += "\n";
         }
@@ -314,18 +313,38 @@ void MdiChild::insertDIV(QString s1)
     textCursor().insertText(s);
 }
 
-void MdiChild::insertA(QString s1)
+void MdiChild::insertA(QString se)
 {
-    //正则去链接("/<a[^>]*>(.*?)<\/a>/is", "$1")
     QString s = textCursor().selection().toPlainText();
-    QStringList SL = s.split("\n");
-    s = "";
-    for (int i=0; i<SL.length(); i++) {
-        if (SL.at(i) != "") {
-            s += "<a " + s1 + ">" + SL.at(i) + "</a>";
-            if (i < SL.length()-1)
-                s += "\n";
+
+    if(s.contains("<a>") || s.contains("</a>")){
+        //正则去链接
+        s.replace(QRegularExpression("<a(.*?)>(.*)</a>"), "\\2");
+        textCursor().insertText(s);
+    } else {
+        QStringList SL = s.split("\n");
+        s = "";
+        for (int i=0; i<SL.length(); i++) {
+            if (SL.at(i) != "") {
+                s += "<a " + se + ">" + SL.at(i) + "</a>";
+                if (i < SL.length()-1)
+                    s += "\n";
+            }
         }
+        textCursor().insertText(s);
     }
-    textCursor().insertText(s);
+}
+
+void MdiChild::insertImg(QString se)
+{
+    QString s = textCursor().selection().toPlainText();
+
+    if(s.contains("<img")){
+        //正则去img除src以外属性，失败
+        s.replace(QRegularExpression("<img(.*?)src=([^\\s]*?)>"), "<img src=\\2");
+        textCursor().insertText(s);
+    } else {
+        s = "<img src=\"" + se + "\">";
+        textCursor().insertText(s);
+    }
 }
