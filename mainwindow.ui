@@ -74,7 +74,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>36</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -146,6 +146,7 @@
    </attribute>
    <addaction name="action_font"/>
    <addaction name="action_run"/>
+   <addaction name="action_br"/>
    <addaction name="action_tr"/>
    <addaction name="action_td"/>
    <addaction name="action_p"/>
@@ -521,6 +522,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+I</string>
+   </property>
+  </action>
+  <action name="action_br">
+   <property name="text">
+    <string>br</string>
    </property>
   </action>
  </widget>

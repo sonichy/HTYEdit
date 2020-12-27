@@ -735,10 +735,19 @@ void MainWindow::anchorClick(QUrl url)
     }
 }
 
+void MainWindow::on_action_br_triggered()
+{
+    QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
+    if(window != nullptr){
+        MdiChild *child = (MdiChild*)(window->widget());
+        child->insertBR();
+    }
+}
+
 void MainWindow::on_action_tr_triggered()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if(window != 0){
+    if(window != nullptr){
         MdiChild *child = (MdiChild*)(window->widget());
         child->insertTR();
     }
@@ -747,7 +756,7 @@ void MainWindow::on_action_tr_triggered()
 void MainWindow::on_action_td_triggered()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if(window != 0){
+    if(window != nullptr){
         MdiChild *child = (MdiChild*)(window->widget());
         child->insertTD();
     }
@@ -756,7 +765,7 @@ void MainWindow::on_action_td_triggered()
 void MainWindow::on_action_p_triggered()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if(window != 0){
+    if(window != nullptr){
         MdiChild *child = (MdiChild*)(window->widget());
         child->insertP();
     }
@@ -765,7 +774,7 @@ void MainWindow::on_action_p_triggered()
 void MainWindow::on_action_div_triggered()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if(window != 0){
+    if(window != nullptr){
         MdiChild *child = (MdiChild*)(window->widget());
         child->insertDIV(lineEdit_command->text());
     }
@@ -774,7 +783,7 @@ void MainWindow::on_action_div_triggered()
 void MainWindow::on_action_a_triggered()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if(window != 0){
+    if(window != nullptr){
         MdiChild *child = (MdiChild*)(window->widget());
         child->insertA(lineEdit_command->text());
     }
@@ -783,7 +792,7 @@ void MainWindow::on_action_a_triggered()
 void MainWindow::on_action_img_triggered()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if(window != 0){
+    if(window != nullptr){
         MdiChild *child = (MdiChild*)(window->widget());
         child->insertImg(lineEdit_command->text());
     }
@@ -792,7 +801,7 @@ void MainWindow::on_action_img_triggered()
 void MainWindow::comboBoxHChanged(QString s)
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if(window != 0){
+    if(window != nullptr){
         MdiChild *child = (MdiChild*)(window->widget());
         child->insertH(s);
     }

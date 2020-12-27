@@ -237,6 +237,11 @@ void MdiChild::setReadOnlyA(bool b)
     setReadOnly(b);
 }
 
+void MdiChild::insertBR()
+{
+    textCursor().insertText("<br>");
+}
+
 void MdiChild::insertH(QString h)
 {
     QString s = textCursor().selection().toPlainText(); //可以显示换行符

@@ -20,6 +20,7 @@ public:
     void insertTR();
     void insertTD();
     void insertP();
+    void insertBR();
     void insertDIV(QString se);
     void insertA(QString se);
     void insertImg(QString se);
