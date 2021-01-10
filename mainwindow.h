@@ -19,7 +19,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     Ui::MainWindow *ui;
     void SyntaxHighlight();
@@ -34,8 +34,8 @@ private:
     void readSettings();
 
 protected:
-    void dragEnterEvent(QDragEnterEvent *e);
-    void dropEvent(QDropEvent *e);
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent *event);
     void closeEvent(QCloseEvent *event);
 
 private slots:
@@ -68,6 +68,8 @@ private slots:
     void on_action_div_triggered();
     void on_action_a_triggered();
     void on_action_img_triggered();
+    void on_action_deleteTag_triggered();
+    void on_action_deleteBR_triggered();
     void find();
     void replace();
     void replaceAll();

@@ -1,6 +1,6 @@
 # Qt 海天鹰编辑器
 基于 Qt 的文字编辑程序。  
-已编译好的 HTYEdit 程序适用 64 位 Linux 系统 Qt5 环境，双击运行，其他版本请自行编译。  
+已编译好的 HTYEdit 程序适用 64 位 Linux 系统 Qt5.11 环境，双击运行，其他版本请自行编译。  
 install.sh 可以生成 desktop，并发送到系统开始菜单。
 ![alt](preview.png)  
 ### 已知问题

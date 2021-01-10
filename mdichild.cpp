@@ -343,13 +343,32 @@ void MdiChild::insertA(QString se)
 void MdiChild::insertImg(QString se)
 {
     QString s = textCursor().selection().toPlainText();
-
-    if(s.contains("<img")){
-        //正则去img除src以外属性，失败
-        s.replace(QRegularExpression("<img(.*?)src=([^\\s]*?)>"), "<img src=\\2");
+    if (s.contains("<img")) {
+        //正则去img除src以外属性
+        s.replace(QRegularExpression(".*<img(.*)src=([^\\s]+).*>"), "<img src=\\2>");
         textCursor().insertText(s);
     } else {
         s = "<img src=\"" + se + "\">";
         textCursor().insertText(s);
     }
+}
+
+void MdiChild::deleteTag()
+{
+    QString s = textCursor().selection().toPlainText();
+    //s.replace(QRegularExpression("[\\s\\S]*<.*?>([\\s\\S]*)<.*?>[\\s\\S]*"), "\\1");
+    //https://zhidao.baidu.com/question/459106626.html
+    s = s.replace(QRegularExpression("<[^>]*?>(.*?)"), "\\1"); //删除左部
+    s = s.replace(QRegularExpression("(.*?)<\\/[^>]*?>"), "\\1"); //删除右部
+    textCursor().insertText(s);
+}
+
+void MdiChild::deleteBR()
+{
+    QString s = textCursor().selection().toPlainText();
+    s = s.replace("\n", "");
+    //s = s.replace(" ", "");   //尖括号里面也去除了，不行
+    //s = s.replace(">\\s+<", "><");  //无效
+    s = s.simplified(); //去首尾空格，中间多个空格替换为一个空格
+    textCursor().insertText(s);
 }

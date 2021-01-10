@@ -153,6 +153,8 @@
    <addaction name="action_div"/>
    <addaction name="action_a"/>
    <addaction name="action_img"/>
+   <addaction name="action_deleteTag"/>
+   <addaction name="action_deleteBR"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_new">
@@ -527,6 +529,28 @@
   <action name="action_br">
    <property name="text">
     <string>br</string>
+   </property>
+  </action>
+  <action name="action_deleteTag">
+   <property name="text">
+    <string>-&lt;&gt;</string>
+   </property>
+   <property name="toolTip">
+    <string>去除Tag</string>
+   </property>
+   <property name="font">
+    <font>
+     <underline>false</underline>
+     <strikeout>false</strikeout>
+    </font>
+   </property>
+  </action>
+  <action name="action_deleteBR">
+   <property name="text">
+    <string>-BR</string>
+   </property>
+   <property name="toolTip">
+    <string>删除换行</string>
    </property>
   </action>
  </widget>

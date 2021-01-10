@@ -109,12 +109,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_action_aboutQt_triggered()
 {
-    QMessageBox::aboutQt(NULL, "关于 Qt");
+    QMessageBox::aboutQt(nullptr, "关于 Qt");
 }
 
 void MainWindow::on_action_about_triggered()
 {
-    QMessageBox aboutMB(QMessageBox::NoIcon, "关于", "海天鹰编辑器 1.10\n\n一款基于 Qt 的文本编辑程序。\n作者：海天鹰\nE-mail: sonichy@163.com\n主页：https://github.com/sonichy\n参考文献：\n多文档编辑器：http://www.qter.org/?page_id=161\nQMdiArea基本用法：http://www.mamicode.com/info-detail-1607476.html\n保存文本：http://blog.csdn.net/neicole/article/details/7330234\n语法高亮：http://www.cnblogs.com/lenxvp/p/5475931.html\n拖放打开文件：http://blog.csdn.net/rl529014/article/details/53057577\n行号：http://doc.qt.io/qt-5/qtwidgets-widgets-codeeditor-example.html");
+    QMessageBox aboutMB(QMessageBox::NoIcon, "关于", "海天鹰编辑器 1.12\n\n一款基于 Qt 的文本编辑程序。\n作者：海天鹰\nE-mail: sonichy@163.com\n主页：https://github.com/sonichy\n参考文献：\n多文档编辑器：http://www.qter.org/?page_id=161\nQMdiArea基本用法：http://www.mamicode.com/info-detail-1607476.html\n保存文本：http://blog.csdn.net/neicole/article/details/7330234\n语法高亮：http://www.cnblogs.com/lenxvp/p/5475931.html\n拖放打开文件：http://blog.csdn.net/rl529014/article/details/53057577\n行号：http://doc.qt.io/qt-5/qtwidgets-widgets-codeeditor-example.html");
     aboutMB.setIconPixmap(QPixmap(":/HTYEdit.png"));
     aboutMB.setWindowIcon(QIcon(":/HTYEdit.png"));
     aboutMB.exec();
@@ -122,7 +122,7 @@ void MainWindow::on_action_about_triggered()
 
 void MainWindow::on_action_changelog_triggered()
 {
-    QString s = "1.11\n2019-12\n优化排版，增加选中多行Tab缩进。\n\n1.10\n2019-08\n增加：字符数统计。\nHTML排版，增加选中文本分行插入td、tr、p、h1~h6的工具。\n\n1.9\n2019-04\n便签右键菜单增加打开文件路径。\n换行自动缩进。\n快捷键 Ctrl+/ 注释、取消注释选中行。\n保存窗口大小，保存字体设置，设置是否显示输出窗口。\n\n1.8\n2018-11\n使用系统主题图标代替Qt内置图标。\n\n1.7\n2018-10\n支持拖放打开多个文件。\n增加打开文件log。\n打开方式文件路径兼容深度文管和其他文管。\n\n1.6\n2018-09\n标签右键增加只读菜单。\n优化括号补全。\n\n1.5\n2018-08\n增加行号\n增加java文件编译命令\n\n1.4\n2018-07\n设置QTextEdit的Tab跳过的空格数为4个空格\n\n1.3\n2018-06\n增加调试窗口。\n\n1.2\n2018-05\n增加c、cpp的OpenGL编译命令。\n2018-05\n解决右键打开方式无法打开文件问题。\n增加运行python。\n2018-04\n增加打印功能。\n\n1.1\n2017-10\n增加获取文本编码(使用 file --mime-encoding 命令返回)，但是没有解决乱码问题。\n排版实验。\n用文本框代替消息框显示更新日志。\n2017-07\n增加拖放打开文件。\n2017-06\n增加语法高亮。\n提取打开文件的相对路径，使Markdown预览能够载入相对路径图片。\n\n1.0\n2017-03\n支持命令行打开文件和打开方式打开文件。\n查找窗口填入选中文本。\n2017-02\n根据文件扩展名选择语法高亮方案。\nJS语法高亮实验成功！\nHTML语法高亮实验成功！\n增加设置字体。\n设置状态栏左右边距。\n2017-01\n实现全部替换。\n设置循环查找。\n增加查找替换窗体和功能。\n根据文件扩展名决定是否使用默认程序打开，如htm。\n优化保存、另存为和文本修动标题标记逻辑。\n增加撤销，重做，子窗标题文本改动标识。\n增加子窗体类，实现Ctrl+滚轮缩放和保存打开文件的路径。\n增加使用默认程序预览文件。\n把上一个打开或保存的路径设置为打开或保存对话框的默认路径和文件名。\n增加放大、缩小。\n增加文本光标变化信号，光标所在行列显示在状态栏第二栏。\n状态栏分为2栏\n修复没有子窗口时预览引起的崩溃。\n增加预览功能。\n保存成功。\n修改字体颜色，背景色成功。\n新建文件成功，打开文件载入成功。\n选用QMdiArea作为主控件，增加窗口标签、平铺、层叠菜单。 \n制作主要菜单。";
+    QString s = "1.12\n2021-01\n修复img去属性，增加删除标签、删除换行。\n\n1.11\n2019-12\n优化排版，增加选中多行Tab缩进。\n\n1.10\n2019-08\n增加：字符数统计。\nHTML排版，增加选中文本分行插入td、tr、p、h1~h6的工具。\n\n1.9\n2019-04\n便签右键菜单增加打开文件路径。\n换行自动缩进。\n快捷键 Ctrl+/ 注释、取消注释选中行。\n保存窗口大小，保存字体设置，设置是否显示输出窗口。\n\n1.8\n2018-11\n使用系统主题图标代替Qt内置图标。\n\n1.7\n2018-10\n支持拖放打开多个文件。\n增加打开文件log。\n打开方式文件路径兼容深度文管和其他文管。\n\n1.6\n2018-09\n标签右键增加只读菜单。\n优化括号补全。\n\n1.5\n2018-08\n增加行号\n增加java文件编译命令\n\n1.4\n2018-07\n设置QTextEdit的Tab跳过的空格数为4个空格\n\n1.3\n2018-06\n增加调试窗口。\n\n1.2\n2018-05\n增加c、cpp的OpenGL编译命令。\n2018-05\n解决右键打开方式无法打开文件问题。\n增加运行python。\n2018-04\n增加打印功能。\n\n1.1\n2017-10\n增加获取文本编码(使用 file --mime-encoding 命令返回)，但是没有解决乱码问题。\n排版实验。\n用文本框代替消息框显示更新日志。\n2017-07\n增加拖放打开文件。\n2017-06\n增加语法高亮。\n提取打开文件的相对路径，使Markdown预览能够载入相对路径图片。\n\n1.0\n2017-03\n支持命令行打开文件和打开方式打开文件。\n查找窗口填入选中文本。\n2017-02\n根据文件扩展名选择语法高亮方案。\nJS语法高亮实验成功！\nHTML语法高亮实验成功！\n增加设置字体。\n设置状态栏左右边距。\n2017-01\n实现全部替换。\n设置循环查找。\n增加查找替换窗体和功能。\n根据文件扩展名决定是否使用默认程序打开，如htm。\n优化保存、另存为和文本修动标题标记逻辑。\n增加撤销，重做，子窗标题文本改动标识。\n增加子窗体类，实现Ctrl+滚轮缩放和保存打开文件的路径。\n增加使用默认程序预览文件。\n把上一个打开或保存的路径设置为打开或保存对话框的默认路径和文件名。\n增加放大、缩小。\n增加文本光标变化信号，光标所在行列显示在状态栏第二栏。\n状态栏分为2栏\n修复没有子窗口时预览引起的崩溃。\n增加预览功能。\n保存成功。\n修改字体颜色，背景色成功。\n新建文件成功，打开文件载入成功。\n选用QMdiArea作为主控件，增加窗口标签、平铺、层叠菜单。 \n制作主要菜单。";
     QDialog *dialog = new QDialog;
     dialog->setWindowTitle("更新历史");
     dialog->setFixedSize(400, 300);
@@ -236,7 +236,7 @@ void MainWindow::on_action_close_triggered()
 void MainWindow::on_action_save_triggered()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if (window != 0) {
+    if (window != nullptr) {
         path = ((MdiChild*)(window->widget()))->path;
         if (path == "") {
             on_action_saveas_triggered();
@@ -252,7 +252,7 @@ void MainWindow::on_action_save_triggered()
 void MainWindow::on_action_saveas_triggered()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if (window != 0) {
+    if (window != nullptr) {
         MdiChild *child = (MdiChild*)(window->widget());
         path = child->path;
         if (path == "") {
@@ -270,7 +270,7 @@ void MainWindow::on_action_saveas_triggered()
 void MainWindow::on_action_run_triggered()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if (window != 0) {
+    if (window != nullptr) {
         QString filename1 = QFileInfo(path).fileName();
         QString suffix = QFileInfo(path).suffix().toLower();
         QString filepath = QFileInfo(path).absolutePath();
@@ -370,7 +370,7 @@ void MainWindow::on_action_run_triggered()
 void MainWindow::cursorPositionChange()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if(window != 0){
+    if (window != nullptr) {
         QTextCursor cursor = ((QTextEdit*)(window->widget()))->textCursor();
         int count =  ((QTextEdit*)(window->widget()))->toPlainText().count();
         LS2->setText(QString("行,列: %1,%2  字符数: %3").arg(cursor.blockNumber()+1).arg(cursor.columnNumber()).arg(count));
@@ -381,7 +381,7 @@ void MainWindow::cursorPositionChange()
 void MainWindow::on_action_zoomin_triggered()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if(window != 0){
+    if (window != nullptr) {
         ((QTextEdit*)(window->widget()))->zoomIn();
     }
 }
@@ -389,7 +389,7 @@ void MainWindow::on_action_zoomin_triggered()
 void MainWindow::on_action_zoomout_triggered()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if(window != 0){
+    if(window != nullptr){
         ((QTextEdit*)(window->widget()))->zoomOut();
     }
 }
@@ -397,7 +397,7 @@ void MainWindow::on_action_zoomout_triggered()
 void MainWindow::on_action_undo_triggered()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if(window != 0){
+    if(window != nullptr){
         ((QTextEdit*)(window->widget()))->undo();
     }
 }
@@ -405,7 +405,7 @@ void MainWindow::on_action_undo_triggered()
 void MainWindow::on_action_redo_triggered()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if(window != 0){
+    if(window != nullptr){
         ((QTextEdit*)(window->widget()))->redo();
     }
 }
@@ -413,7 +413,7 @@ void MainWindow::on_action_redo_triggered()
 void MainWindow::on_action_find_triggered()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if(window != 0){
+    if(window != nullptr){
         dialogFind->show();
         dialogFind->ui->lineEdit_find->setFocus();
         dialogFind->ui->lineEdit_find->setText(((QTextEdit*)(window->widget()))->textCursor().selectedText());
@@ -423,7 +423,7 @@ void MainWindow::on_action_find_triggered()
 void MainWindow::find()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if(window != 0){
+    if(window != nullptr){
         QString sfind = dialogFind->ui->lineEdit_find->text();
         if(!((QTextEdit*)(window->widget()))->find(sfind)){
             QMessageBox MB(QMessageBox::Question, "提示", QString("找不到\"%1\",是否从头查起。").arg(sfind));
@@ -493,7 +493,7 @@ void MainWindow::on_action_indent_triggered()
 void MainWindow::on_action_font_triggered()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if(window != 0){
+    if (window != nullptr) {
         bool ok;
         //qDebug() << ((QTextEdit*)(window->widget()))->currentFont();
         QString sfont = settings.value("Font").toString();
@@ -507,7 +507,7 @@ void MainWindow::on_action_font_triggered()
         font = QFontDialog::getFont(&ok, font, this, "选择字体");
         if(ok){
             ((QTextEdit*)(window->widget()))->setCurrentFont(font);
-            QString sfont = font.family() + "," + QString::number(font.pointSize()) + "," + font.weight() + "," + font.italic();
+            QString sfont = font.family() + "," + QString::number(font.pointSize()) + "," + QString::number(font.weight()) + "," + font.italic();
             settings.setValue("Font", sfont);
         }
     }
@@ -580,16 +580,16 @@ void MainWindow::SyntaxHighlight()
     ((QTextEdit*)(window->widget()))->setWindowModified(false);
 }
 
-void MainWindow::dragEnterEvent(QDragEnterEvent *e)
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 {
-    qDebug() << e->mimeData()->formats().at(0);
+    qDebug() << event->mimeData()->formats().at(0);
     //if(e->mimeData()->hasFormat("text/uri-list")) //只能打开文本文件
-    e->acceptProposedAction(); //可以在这个窗口部件上拖放对象
+    event->acceptProposedAction(); //可以在这个窗口部件上拖放对象
 }
 
-void MainWindow::dropEvent(QDropEvent *e) //释放对方时，执行的操作
+void MainWindow::dropEvent(QDropEvent *event) //释放对方时，执行的操作
 {
-    QList<QUrl> urls = e->mimeData()->urls();
+    QList<QUrl> urls = event->mimeData()->urls();
     if(urls.isEmpty())
         return;
 
@@ -641,7 +641,7 @@ void MainWindow::on_action_printPreview_triggered()
 void MainWindow::printDocument(QPrinter *printer)
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if (window != 0) {
+    if (window != nullptr) {
         MdiChild *child = (MdiChild*)(window->widget());
         child->print(printer);
     }
@@ -650,7 +650,7 @@ void MainWindow::printDocument(QPrinter *printer)
 void MainWindow::updateCommand()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
-    if (window != 0) {
+    if (window != nullptr) {
         bool isShowOutput = ui->action_window_output->isChecked();
         if (isShowOutput) ui->textBrowser->show();
         QString suffix = QFileInfo(((MdiChild*)(window->widget()))->path).suffix().toLower();
@@ -739,7 +739,7 @@ void MainWindow::on_action_br_triggered()
 {
     QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
     if(window != nullptr){
-        MdiChild *child = (MdiChild*)(window->widget());
+        MdiChild *child = static_cast<MdiChild*>(window->widget());
         child->insertBR();
     }
 }
@@ -795,6 +795,24 @@ void MainWindow::on_action_img_triggered()
     if(window != nullptr){
         MdiChild *child = (MdiChild*)(window->widget());
         child->insertImg(lineEdit_command->text());
+    }
+}
+
+void MainWindow::on_action_deleteTag_triggered()
+{
+    QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
+    if (window != nullptr) {
+        MdiChild *child = static_cast<MdiChild*>(window->widget());
+        child->deleteTag();
+    }
+}
+
+void MainWindow::on_action_deleteBR_triggered()
+{
+    QMdiSubWindow *window = ui->mdiArea->currentSubWindow();
+    if (window != nullptr) {
+        MdiChild *child = static_cast<MdiChild*>(window->widget());
+        child->deleteBR();
     }
 }
 

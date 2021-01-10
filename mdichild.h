@@ -24,6 +24,8 @@ public:
     void insertDIV(QString se);
     void insertA(QString se);
     void insertImg(QString se);
+    void deleteTag();
+    void deleteBR();
 
 private:
     QSettings settings;
